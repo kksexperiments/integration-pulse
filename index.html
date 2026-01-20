@@ -146,25 +146,12 @@
                     </div>
                 </div>
 
-                <!-- Account Risk Analysis Table -->
+                <!-- Account Risk Analysis -->
                 <div class="card summary-card" style="grid-column: span 12; display: flex; flex-direction: column;">
-                    <h3 class="card-title">Account Risk Analysis</h3>
-                    <div class="table-container" style="overflow-x: auto;">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Account</th>
-                                    <th>Total Revenue</th>
-                                    <th>Revenue At Risk</th>
-                                    <th>Margin</th>
-                                    <th>Risk Score</th>
-                                    <th>Renewal</th>
-                                </tr>
-                            </thead>
-                            <tbody id="risk-table-body">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
+                    <h3 class="card-title">Account Risk View</h3>
+                    <div id="account-chart" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Chart Populated by JS -->
+                        <div style="color: var(--text-tertiary); font-style: italic;">Loading risk view...</div>
                     </div>
                 </div>
             </div>

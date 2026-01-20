@@ -22,7 +22,7 @@ const RAW_DATA = {
       "renewalDate": "2025-03-15",
       "teamSize": 53,
       "peopleRiskScore": 51,
-      "revenueAtRisk": 7783994,
+      "revenueAtRisk": 420000,
       "margin": 15
     },
     {
@@ -31,7 +31,7 @@ const RAW_DATA = {
       "renewalDate": "2025-06-20",
       "teamSize": 56,
       "peopleRiskScore": 46,
-      "revenueAtRisk": 5059700,
+      "revenueAtRisk": 280000,
       "margin": 12
     },
     {
@@ -40,7 +40,7 @@ const RAW_DATA = {
       "renewalDate": "2025-09-10",
       "teamSize": 53,
       "peopleRiskScore": 49,
-      "revenueAtRisk": 5889400
+      "revenueAtRisk": 350000
     },
     {
       "name": "Coca-Cola",
@@ -48,7 +48,7 @@ const RAW_DATA = {
       "renewalDate": "2025-12-05",
       "teamSize": 68,
       "peopleRiskScore": 46,
-      "revenueAtRisk": 5788800
+      "revenueAtRisk": 180000
     },
     {
       "name": "Coke Bottlers",
@@ -56,7 +56,7 @@ const RAW_DATA = {
       "renewalDate": "2025-08-22",
       "teamSize": 60,
       "peopleRiskScore": 46,
-      "revenueAtRisk": 3901797
+      "revenueAtRisk": 140000
     },
     {
       "name": "Bimbo",
@@ -64,7 +64,7 @@ const RAW_DATA = {
       "renewalDate": "2025-11-30",
       "teamSize": 60,
       "peopleRiskScore": 52,
-      "revenueAtRisk": 2866500
+      "revenueAtRisk": 90000
     }
   ],
   "talent": [

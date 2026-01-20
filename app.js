@@ -18,9 +18,9 @@ async function loadData() {
         updateAlerts(talent.employees);
         updateRevenueAtRisk(health);
         updateAlerts(talent.employees);
-        // updateAccountChart(accountsData.accounts); // Replaced by new table
+        updateAccountChart(accountsData.accounts); // Restored
         renderAttritionChart(RAW_DATA.attritionTrend);
-        renderRiskTable(accountsData.accounts);
+        // renderRiskTable(accountsData.accounts); // Removed per user request
 
     } catch (error) {
         console.error('Error loading data:', error);

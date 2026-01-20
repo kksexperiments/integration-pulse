@@ -147,13 +147,14 @@ body {
    ============================================ */
 header {
   background-color: var(--lv-navy-900);
-  /* Darker Header */
-  color: var(--surface-white);
+  /* Light Header */
+  background-color: var(--surface-white);
+  color: var(--text-primary);
   padding: 0.5rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--lv-blue-800);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .logo-container {
@@ -175,21 +176,21 @@ header {
   font-size: 1.25rem;
 }
 
-/* Header Text Colors Override for Dark BG */
+/* Header Text Colors Override for Light BG */
 header strong {
-  color: var(--surface-white);
+  color: var(--lv-navy-900);
 }
 
 .integration-status {
   font-size: 0.6875rem;
-  color: var(--lv-blue-200);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .logo-container strong {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--surface-white);
+  color: var(--lv-navy-900);
   letter-spacing: -0.3px;
 }
 
@@ -203,9 +204,9 @@ header strong {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid var(--lv-blue-700);
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--surface-white);
+  border: 1px solid var(--border-default);
+  background: transparent;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,8 +217,9 @@ header strong {
 }
 
 .btn-icon:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-secondary);
   border-color: var(--lv-primary);
+  color: var(--lv-primary);
 }
 
 .user-profile {
