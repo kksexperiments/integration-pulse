@@ -189,7 +189,7 @@ header strong {
 .logo-container strong {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--surface-white);
   letter-spacing: -0.3px;
 }
 
