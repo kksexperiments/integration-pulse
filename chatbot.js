@@ -5,14 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function injectChatbot() {
+    // Only inject if not already present
+    if (document.getElementById('chat-widget')) return;
+
     const chatHTML = `
-        <div id="ai-chat-widget" class="chat-widget">
-            <div class="chat-header" onclick="toggleChat()">
+        <div id="chat-widget" class="chat-widget">
+            <div class="chat-header">
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                     <span style="font-size:1.2rem;">🤖</span>
                     <span style="font-weight:600;">Integration Assistant</span>
                 </div>
-                <span id="chat-toggle-icon">▲</span>
+                <!-- Toggle handled by external button -->
             </div>
             <div class="chat-body" id="chat-body">
                 <div class="chat-message bot">
@@ -32,15 +35,16 @@ function injectChatbot() {
 let isChatOpen = false;
 
 function toggleChat() {
-    const widget = document.getElementById('ai-chat-widget');
-    const icon = document.getElementById('chat-toggle-icon');
+    const widget = document.getElementById('chat-widget');
+    const trigger = document.getElementById('chat-trigger');
+    widget.classList.toggle('open');
+    trigger.classList.toggle('active');
 
-    if (isChatOpen) {
-        widget.classList.remove('open');
-        icon.textContent = '▲';
+    if (widget.classList.contains('open')) {
+        trigger.textContent = '×';
+        document.getElementById('chat-input').focus();
     } else {
-        widget.classList.add('open');
-        icon.textContent = '▼';
+        trigger.textContent = '💬';
     }
     isChatOpen = !isChatOpen;
 }

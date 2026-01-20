@@ -189,8 +189,10 @@
                     <div class="integration-status">M&A Analytics Control Tower</div>
                 </div>
             </div>
-            <div class="day-counter">
-                Day 42 of 180
+            <div class="header-actions">
+                <button class="btn-icon" title="Help">?</button>
+                <button class="btn-icon" title="Apps">::</button>
+                <div class="user-profile" title="User Profile">JD</div>
             </div>
         </header>
 
@@ -245,7 +247,7 @@
 
             <div class="dashboard-grid">
                 <!-- Flight Risk Matrix -->
-                <div class="card" style="grid-column: span 6; min-height: 500px;">
+                <div class="card" style="grid-column: span 6; height: 580px;">
                     <h3 class="card-title">Flight Risk Matrix</h3>
                     <div class="matrix-container" id="matrix-container">
                         <!-- Quadrant Backgrounds -->
@@ -283,7 +285,7 @@
                 </div>
 
                 <!-- High Priority Watchlist -->
-                <div class="card" style="grid-column: span 6; height: 500px; display: flex; flex-direction: column;">
+                <div class="card" style="grid-column: span 6; height: 580px; display: flex; flex-direction: column;">
                     <h3 class="card-title">High-Priority Watchlist</h3>
                     <div style="overflow-y: auto; flex: 1; max-height: 420px;">
                         <table class="watchlist-table">
@@ -346,6 +348,7 @@
     </div>
     <script src="data.js"></script>
     <script src="talent.js"></script>
+    <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">💬</div>
     <script src="chatbot.js"></script>
 </body>
 

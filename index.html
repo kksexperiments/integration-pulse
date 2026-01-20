@@ -23,8 +23,10 @@
                     <div class="integration-status">M&A Analytics Control Tower</div>
                 </div>
             </div>
-            <div class="day-counter">
-                Day 42 of 180
+            <div class="header-actions">
+                <button class="btn-icon" title="Help">?</button>
+                <button class="btn-icon" title="Apps">::</button>
+                <div class="user-profile" title="User Profile">JD</div>
             </div>
         </header>
 
@@ -45,7 +47,7 @@
 
             <div class="dashboard-grid">
                 <!-- Integration Health Score -->
-                <div class="card hero-card">
+                <div class="card hero-card summary-card">
                     <h3 class="card-title">Integration Health</h3>
                     <div class="health-score-container">
                         <div class="gauge">
@@ -78,7 +80,7 @@
                 </div>
 
                 <!-- Revenue At Risk -->
-                <div class="card hero-card">
+                <div class="card hero-card summary-card">
                     <h3 class="card-title">Revenue At Risk</h3>
                     <div
                         style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1;">
@@ -119,6 +121,7 @@
             </div>
         </main>
 
+        <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">💬</div>
         <script src="data.js"></script>
         <script src="app.js"></script>
         <script src="chatbot.js"></script>

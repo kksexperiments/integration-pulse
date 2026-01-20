@@ -187,13 +187,45 @@ header {
   font-weight: 500;
 }
 
-.day-counter {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-light);
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 1.125rem;
+}
+
+.btn-icon:hover {
   background: var(--bg-secondary);
-  padding: 0.375rem 0.875rem;
-  border-radius: var(--radius-full);
+  color: var(--lv-primary);
+  border-color: var(--lv-blue-400);
+}
+
+.user-profile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--dp-primary) 0%, var(--dp-primary-dark) 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
 }
 
 /* ============================================
@@ -262,7 +294,7 @@ main {
 .card {
   background-color: var(--surface);
   border-radius: var(--radius-xl);
-  padding: var(--space-lg);
+  padding: 1rem;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-light);
   display: flex;
@@ -280,7 +312,19 @@ main {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.75rem;
+}
+
+/* Compact Summary Card */
+.summary-card {
+  grid-column: span 12;
+  padding: 0.75rem !important;
+}
+
+.summary-card .metric-value {
+  font-size: 1.75rem;
 }
 
 /* Card Sizes */
@@ -631,13 +675,46 @@ input:checked+.slider:before {
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: var(--shadow-xl);
   z-index: 1000;
-  transform: translateY(calc(100% - 56px));
-  transition: transform var(--transition-normal);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
+  transform: translateY(20px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  bottom: 5rem;
 }
 
 .chat-widget.open {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.chat-trigger {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lv-primary) 0%, var(--lv-primary-dark) 100%);
+  color: white;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1001;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chat-trigger:hover {
+  transform: scale(1.1);
+}
+
+.chat-trigger.active {
+  transform: rotate(45deg);
+  background: var(--danger);
 }
 
 .chat-header {
@@ -871,4 +948,22 @@ tr:hover {
 
 .shadow-md {
   box-shadow: var(--shadow-md);
+}
+
+/* Compact Tile Overrides */
+.action-stat {
+  padding: 0.75rem !important;
+}
+
+.impact-card {
+  padding: 0.75rem !important;
+}
+
+.account-card {
+  padding: 0.75rem !important;
+}
+
+.hero-card.summary-card {
+  padding: 1rem !important;
+  min-height: auto !important;
 }

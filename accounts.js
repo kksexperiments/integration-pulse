@@ -76,8 +76,8 @@ function renderCards(accounts) {
                 <span class="ac-risk-badge" style="background:${riskBg}; color:${riskColor}">${acc.peopleRiskScore}</span>
             </div>
             <div class="ac-metric">$${(acc.totalRevenue / 1000000).toFixed(1)}M</div>
-            <div class="ac-risk" style="color:${acc.revenueAtRisk > 300000 ? 'var(--status-danger)' : 'var(--text-secondary)'}">
-                $${(acc.revenueAtRisk / 1000).toFixed(0)}K at risk
+            <div class="ac-risk" style="color:${acc.revenueAtRisk > 50000 ? 'var(--status-danger)' : 'var(--text-secondary)'}">
+                $${(acc.revenueAtRisk / 1000000).toFixed(2)}M at risk
             </div>
             <div style="font-size:0.75rem; color:var(--text-tertiary); margin-top:0.5rem;">
                 ${acc.teamSize} people • Renew ${new Date(acc.renewalDate).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}
@@ -111,7 +111,7 @@ function renderRiskBars(accounts) {
                     ${acc.teamSize} people
                 </div>
             </div>
-            <div class="risk-bar-value" style="color:${color}">$${(acc.revenueAtRisk / 1000).toFixed(0)}K</div>
+            <div class="risk-bar-value" style="color:${color}">$${(acc.revenueAtRisk / 1000000).toFixed(2)}M</div>
         `;
         container.appendChild(row);
     });
