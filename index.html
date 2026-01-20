@@ -112,16 +112,41 @@
 
                 <!-- Attrition Comparison -->
                 <div class="card chart-card">
-                    <h3 class="card-title">Attrition Comparison</h3>
-                    <div
-                        style="flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); font-style: italic;">
-                        Attrition Trend Visualization
+                    <h3 class="card-title">Attrition Comparison (YoY)</h3>
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="attritionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Account Risk Analysis Table -->
+                <div class="card summary-card" style="grid-column: span 12; display: flex; flex-direction: column;">
+                    <h3 class="card-title">Account Risk Analysis</h3>
+                    <div class="table-container" style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Account</th>
+                                    <th>Total Revenue</th>
+                                    <th>Revenue At Risk</th>
+                                    <th>Margin</th>
+                                    <th>Risk Score</th>
+                                    <th>Renewal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="risk-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </main>
 
         <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">💬</div>
+
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script src="data.js"></script>
         <script src="app.js"></script>
         <script src="chatbot.js"></script>

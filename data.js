@@ -8,6 +8,7 @@ const RAW_DATA = {
     "totalEmployees": 350,
     "totalRevenueAtRisk": 31290191
   },
+  "attritionTrend": ATTRITION_TRENDS, // Added
   "accounts": [
     {
       "name": "PepsiCo",
@@ -15,7 +16,8 @@ const RAW_DATA = {
       "renewalDate": "2025-03-15",
       "teamSize": 53,
       "peopleRiskScore": 51,
-      "revenueAtRisk": 7783994
+      "revenueAtRisk": 7783994,
+      "margin": 15
     },
     {
       "name": "Kellanova",
@@ -23,7 +25,8 @@ const RAW_DATA = {
       "renewalDate": "2025-06-20",
       "teamSize": 56,
       "peopleRiskScore": 46,
-      "revenueAtRisk": 5059700
+      "revenueAtRisk": 5059700,
+      "margin": 12
     },
     {
       "name": "Unilever",

@@ -16,98 +16,97 @@ async function loadData() {
         updateHealthScore(health);
         updateRevenueAtRisk(health);
         updateAlerts(talent.employees);
-        updateAccountChart(accountsData.accounts);
+        updateRevenueAtRisk(health);
+        updateAlerts(talent.employees);
+        // updateAccountChart(accountsData.accounts); // Replaced by new table
+        renderAttritionChart(RAW_DATA.attritionTrend);
+        renderRiskTable(accountsData.accounts);
 
     } catch (error) {
         console.error('Error loading data:', error);
-        document.getElementById('alerts-list').innerHTML = '<div class="alert-item warning">Failed to load live data. Please ensure mock data is generated.</div>';
+        document.getElementById('alerts-list').innerHTML = '<div class="alert-item warning">Failed to load live data.</div>';
     }
 }
 
-function updateHealthScore(data) {
-    const scoreElem = document.getElementById('health-score');
-    const gaugeFill = document.getElementById('health-gauge');
+// ... existing updateHealthScore ...
+// ... existing updateRevenueAtRisk ...
+// ... existing updateAlerts ...
 
-    // Animate number
-    animateValue(scoreElem, 0, data.overallScore, 1500);
+function renderAttritionChart(trends) {
+    const ctx = document.getElementById('attritionChart').getContext('2d');
 
-    // Rotate gauge
-    // 0 score = -90deg, 100 score = 90deg (or simple 1.8 * score - 90)
-    const rotation = (data.overallScore / 100) * 180 - 180;
-    gaugeFill.style.transform = `rotate(${rotation}deg)`;
+    // Labels for April to March fiscal year
+    const labels = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
 
-    document.getElementById('score-talent').textContent = data.talent;
-    document.getElementById('score-culture').textContent = data.culture;
-    document.getElementById('score-ops').textContent = data.operations;
-    document.getElementById('score-cost').textContent = data.cost;
-}
-
-function updateRevenueAtRisk(data) {
-    const revElem = document.getElementById('revenue-at-risk');
-    const mValue = (data.totalRevenueAtRisk / 1000000).toFixed(1);
-    revElem.textContent = `$${mValue}M`;
-
-    // Assuming total rev is roughly 14M based on PRD if not explicit
-    const percentage = ((data.totalRevenueAtRisk / 31403390) * 100).toFixed(0); // placeholder calc
-    document.getElementById('revenue-percentage').textContent = `15% of total revenue at risk`;
-}
-
-function updateAlerts(employees) {
-    const list = document.getElementById('alerts-list');
-    list.innerHTML = '';
-
-    // Find high risk employees
-    const highRisk = employees
-        .filter(e => e.riskScore > 85)
-        .sort((a, b) => b.riskScore - a.riskScore)
-        .slice(0, 3);
-
-    highRisk.forEach(emp => {
-        const item = document.createElement('div');
-        item.className = 'alert-item critical';
-        item.innerHTML = `
-            <div class="alert-content">
-                <div class="alert-title">$${(emp.revenueAtRisk / 1000).toFixed(0)}K at risk: ${emp.name} (${emp.role}) on ${emp.account} at flight risk</div>
-                <div class="alert-meta">Risk Score: ${emp.riskScore} • Signal: ${emp.signals.join(', ')}</div>
-            </div>
-        `;
-        list.appendChild(item);
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Apr 2024 - Mar 2025',
+                    data: trends.previous,
+                    borderColor: '#94a3b8', // Gray
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    pointRadius: 0
+                },
+                {
+                    label: 'Apr 2025 - Jan 2026',
+                    data: trends.current,
+                    borderColor: '#0f172a', // LatentView Navy/Blue
+                    backgroundColor: 'rgba(15, 23, 42, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                x: { grid: { display: false } }
+            }
+        }
     });
-
-    // Add a warning alert as per PRD
-    const warning = document.createElement('div');
-    warning.className = 'alert-item warning';
-    warning.innerHTML = `
-        <div class="alert-content">
-            <div class="alert-title">Kellanova relationship: Primary contact showing signals</div>
-            <div class="alert-meta">2 hours ago • Relationship Continuity</div>
-        </div>
-    `;
-    list.appendChild(warning);
 }
 
-function updateAccountChart(accounts) {
-    const chart = document.getElementById('account-chart');
-    chart.innerHTML = '';
+function renderRiskTable(accounts) {
+    const tbody = document.getElementById('risk-table-body');
+    tbody.innerHTML = '';
 
-    const maxRev = Math.max(...accounts.map(a => a.revenueAtRisk));
+    // Sort by Revenue at Risk
+    const sorted = [...accounts].sort((a, b) => b.revenueAtRisk - a.revenueAtRisk);
 
-    accounts.sort((a, b) => b.revenueAtRisk - a.revenueAtRisk).forEach(acc => {
-        const width = (acc.revenueAtRisk / maxRev) * 100;
-        const row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.alignItems = 'center';
-        row.style.gap = '1rem';
+    sorted.forEach(acc => {
+        // Badge Colors
+        let riskBg = 'var(--lv-blue-100)';
+        let riskColor = 'var(--lv-blue-800)';
+        if (acc.peopleRiskScore > 48) { riskBg = 'var(--lv-blue-200)'; riskColor = 'var(--lv-primary)'; }
+        if (acc.peopleRiskScore > 50) { riskBg = 'var(--lv-blue-300)'; riskColor = 'var(--lv-navy-900)'; }
+
+        const row = document.createElement('tr');
         row.innerHTML = `
-            <div style="width: 100px; font-size: 0.875rem; white-space: nowrap;">${acc.name}</div>
-            <div style="flex: 1; height: 12px; background: var(--bg-secondary); border-radius: 6px; overflow: hidden;">
-                <div style="width: ${width}%; height: 100%; background: var(--lv-accent-orange); transition: width 1.5s ease-out;"></div>
-            </div>
-            <div style="width: 60px; font-size: 0.75rem; text-align: right; font-family: var(--font-mono);">$${(acc.revenueAtRisk / 1000).toFixed(0)}K</div>
+            <td style="font-weight: 600;">${acc.name}</td>
+            <td>$${(acc.totalRevenue / 1000000).toFixed(1)}M</td>
+            <td style="color: var(--lv-primary); font-weight:600;">$${(acc.revenueAtRisk / 1000000).toFixed(2)}M</td>
+            <td>${acc.margin}%</td>
+            <td><span class="ac-risk-badge" style="background:${riskBg}; color:${riskColor}; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem;">${acc.peopleRiskScore}</span></td>
+            <td style="color: var(--text-tertiary); font-size: 0.875rem;">${new Date(acc.renewalDate).toLocaleDateString(undefined, { month: 'short', year: 'numeric' })}</td>
         `;
-        chart.appendChild(row);
+        tbody.appendChild(row);
     });
 }
+
+/* 
+function updateAccountChart(accounts) {
+    // Deprecated in favor of Full Table
+} 
+*/
 
 function animateValue(obj, start, end, duration) {
     let startTimestamp = null;
