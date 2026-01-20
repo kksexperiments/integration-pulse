@@ -12,11 +12,17 @@
         rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <style>
-        .split-layout {
+        .scenario-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            height: calc(100vh - 180px);
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        @media (max-width: 1024px) {
+            .scenario-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         .panel {
@@ -29,7 +35,7 @@
         }
 
         .panel-header {
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid var(--border-light);
             background-color: var(--bg-secondary);
         }
@@ -38,16 +44,17 @@
             flex: 1;
             padding: 1.5rem;
             overflow-y: auto;
+            max-height: 60vh;
         }
 
-        /* Employee List */
+        /* Employee Selection */
         .emp-select-item {
             display: flex;
             align-items: center;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -58,81 +65,151 @@
         }
 
         .emp-select-item.selected {
-            border-color: var(--lv-blue-600);
-            background-color: #EFF6FF;
-            box-shadow: 0 0 0 2px var(--lv-blue-100);
+            border-color: var(--status-danger);
+            background-color: rgba(220, 38, 38, 0.05);
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
         }
 
         .checkbox-custom {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 2px solid var(--text-tertiary);
             border-radius: 4px;
-            margin-right: 1rem;
+            margin-right: 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 14px;
+            font-size: 12px;
+            flex-shrink: 0;
         }
 
         .emp-select-item.selected .checkbox-custom {
-            background-color: var(--lv-blue-600);
-            border-color: var(--lv-blue-600);
+            background-color: var(--status-danger);
+            border-color: var(--status-danger);
         }
 
-        /* Results */
-        .result-card {
-            background-color: var(--bg-primary);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
+        /* Impact Results */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
             margin-bottom: 1.5rem;
+        }
+
+        .impact-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
             text-align: center;
         }
 
-        .rc-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .impact-card.danger {
+            background: rgba(220, 38, 38, 0.1);
         }
 
-        .rc-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--lv-navy-900);
+        .impact-card.success {
+            background: rgba(16, 185, 129, 0.1);
         }
 
-        .rc-sub {
+        .ic-label {
             font-size: 0.75rem;
             color: var(--text-tertiary);
-            margin-top: 0.5rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
         }
 
-        .rc-success .rc-value {
-            color: var(--status-success);
+        .ic-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            font-family: var(--font-mono);
         }
 
-        .rc-danger .rc-value {
+        .ic-value.danger {
             color: var(--status-danger);
         }
 
-        .action-button {
+        .ic-value.success {
+            color: var(--status-success);
+        }
+
+        /* Cascade Impact */
+        .cascade-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .cascade-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cascade-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            gap: 0.75rem;
+        }
+
+        .cascade-item.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--lv-accent-orange);
+        }
+
+        .cascade-item.critical {
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 3px solid var(--status-danger);
+        }
+
+        .cascade-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* AI Recommendation */
+        .ai-box {
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--lv-navy-800);
+        }
+
+        .action-btn {
             width: 100%;
             padding: 1rem;
-            background-color: var(--lv-blue-600);
+            background: var(--lv-blue-600);
             color: white;
             border: none;
             border-radius: var(--radius-md);
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        .action-button:hover {
-            background-color: var(--lv-blue-500);
+        .action-btn:hover {
+            background: var(--lv-blue-500);
         }
 
         .reset-link {
@@ -156,9 +233,7 @@
                     <div class="integration-status">M&A Analytics Control Tower</div>
                 </div>
             </div>
-            <div class="day-counter">
-                Day 42 of 180
-            </div>
+            <div class="day-counter">Day 42 of 180</div>
         </header>
 
         <nav>
@@ -172,56 +247,65 @@
         <main>
             <div class="dashboard-header">
                 <h1>Scenario Lab</h1>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Model "what if" departures and understand
+                    the cascade impact</p>
             </div>
 
-            <div class="split-layout">
-                <!-- Builder -->
+            <div class="scenario-container">
+                <!-- Left: Employee Selection -->
                 <div class="panel">
                     <div class="panel-header">
-                        <h3>1. Select At-Risk Employees</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary);">Select key personnel to model
-                            departure impact.</p>
+                        <h3 style="margin:0 0 0.25rem 0;">Select Departures</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-tertiary); margin:0;">Choose employees to model
+                            impact</p>
                     </div>
                     <div class="panel-body" id="employee-list">
                         <!-- Injected via JS -->
                     </div>
                 </div>
 
-                <!-- Analysis -->
+                <!-- Right: Impact Analysis -->
                 <div class="panel">
                     <div class="panel-header">
-                        <h3>2. Projected Impact Analysis</h3>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary);">Estimated financial impact and ROI
-                            of retention.</p>
+                        <h3 style="margin:0 0 0.25rem 0;">Cascade Impact Analysis</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-tertiary); margin:0;">If selected employees
+                            leave...</p>
                     </div>
-                    <div class="panel-body">
-                        <div class="result-card rc-danger">
-                            <div class="rc-label">Direct Revenue Risk</div>
-                            <div class="rc-value" id="res-revenue">$0</div>
-                            <div class="rc-sub">Total revenue attached to selected employees</div>
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div class="result-card">
-                                <div class="rc-label">Est. Retention Cost</div>
-                                <div class="rc-value" id="res-cost">$0</div>
-                                <div class="rc-sub">Based on 15% salary est.</div>
+                    <div class="panel-body" style="max-height: none;">
+                        <!-- Impact Metrics -->
+                        <div class="impact-grid">
+                            <div class="impact-card danger">
+                                <div class="ic-label">Revenue at Risk</div>
+                                <div class="ic-value danger" id="res-revenue">$0</div>
                             </div>
-                            <div class="result-card rc-success">
-                                <div class="rc-label">Projected ROI</div>
-                                <div class="rc-value" id="res-roi">0x</div>
-                                <div class="rc-sub">Return on Intervention</div>
+                            <div class="impact-card">
+                                <div class="ic-label">Accounts Impacted</div>
+                                <div class="ic-value" id="res-accounts">0</div>
+                            </div>
+                            <div class="impact-card success">
+                                <div class="ic-label">Retention ROI</div>
+                                <div class="ic-value success" id="res-roi">0x</div>
                             </div>
                         </div>
 
-                        <div
-                            style="padding: 1.5rem; background: var(--bg-tertiary); border-radius: var(--radius-md); margin-bottom: 2rem;">
-                            <h4 style="margin-bottom: 0.5rem;">AI Recommendation</h4>
-                            <p id="ai-rec" style="font-size: 0.875rem; color: var(--text-secondary);">Select employees
-                                to generate a business case.</p>
+                        <!-- Cascade Impacts -->
+                        <div class="cascade-section" id="cascade-accounts">
+                            <!-- Injected -->
                         </div>
 
-                        <button class="action-button">Generate Business Case PDF</button>
+                        <div class="cascade-section" id="cascade-team">
+                            <!-- Injected -->
+                        </div>
+
+                        <!-- AI Recommendation -->
+                        <div class="ai-box">
+                            <div class="ai-header">🤖 AI Recommendation</div>
+                            <p id="ai-rec" style="font-size: 0.875rem; color: var(--text-secondary); margin:0;">
+                                Select employees to model the departure scenario.
+                            </p>
+                        </div>
+
+                        <button class="action-btn" id="generate-btn">📄 Generate Business Case</button>
                         <a class="reset-link" onclick="resetSelection()">Reset Scenario</a>
                     </div>
                 </div>
