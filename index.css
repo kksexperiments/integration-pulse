@@ -686,6 +686,7 @@ input:checked+.slider:before {
   transform: translateY(0) scale(1);
   opacity: 1;
   pointer-events: auto;
+  bottom: 90px;
 }
 
 .chat-trigger {
