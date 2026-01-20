@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Hub | Integration Pulse™</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .board-container {
+            display: flex;
+            gap: 1.5rem;
+            height: calc(100vh - 180px);
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .board-column {
+            flex: 0 0 300px;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column-header {
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .column-count {
+            background-color: var(--border-default);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .column-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .kanban-card {
+            background-color: var(--surface-white);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            box-shadow: var(--shadow-sm);
+            cursor: move;
+            transition: all 0.2s;
+        }
+
+        .kanban-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .kc-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .kc-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .tag-retention {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        /* Blue */
+        .tag-comp {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        /* Amber */
+
+        .kc-title {
+            font-weight: 600;
+            color: var(--lv-navy-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .kc-sub {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .kc-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .origin-badge {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .ob-lv {
+            background-color: var(--lv-blue-600);
+        }
+
+        .ob-dp {
+            background-color: var(--lv-accent-orange);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-box">LV</div>
+                <div>
+                    <strong>Integration Pulse™</strong>
+                    <div class="integration-status">M&A Analytics Control Tower</div>
+                </div>
+            </div>
+            <div class="day-counter">
+                Day 42 of 180
+            </div>
+        </header>
+
+        <nav>
+            <a href="index.html">Command Center</a>
+            <a href="talent.html">Talent Pulse</a>
+            <a href="accounts.html">Account Risk</a>
+            <a href="scenarios.html">Scenario Lab</a>
+            <a href="actions.html" class="active">Action Hub</a>
+        </nav>
+
+        <main>
+            <div class="dashboard-header">
+                <h1>Action Hub</h1>
+            </div>
+
+            <div class="board-container">
+                <!-- Proposed -->
+                <div class="board-column">
+                    <div class="column-header">
+                        Proposed <span class="column-count">3</span>
+                    </div>
+                    <div class="column-body">
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-retention">Retention</span>
+                            </div>
+                            <div class="kc-title">Retention Bonus (Priya S.)</div>
+                            <div class="kc-sub">Proposal: $25k bump to close gap.</div>
+                            <div class="kc-footer">
+                                <span><span class="origin-badge ob-dp"></span> DP</span>
+                                <span>2d ago</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-comp">Review</span>
+                            </div>
+                            <div class="kc-title">Grade Alignment (Chen W.)</div>
+                            <div class="kc-sub">Investigate grade mismatch w/ peers.</div>
+                            <div class="kc-footer">
+                                <span><span class="origin-badge ob-dp"></span> DP</span>
+                                <span>1d ago</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-retention">Mobility</span>
+                            </div>
+                            <div class="kc-title">Relocation Support (Emp 12)</div>
+                            <div class="kc-sub">Requesting transfer to UK office.</div>
+                            <div class="kc-footer">
+                                <span><span class="origin-badge ob-lv"></span> LV</span>
+                                <span>4h ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved -->
+                <div class="board-column">
+                    <div class="column-header">
+                        Approved <span class="column-count">1</span>
+                    </div>
+                    <div class="column-body">
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-comp">Comp</span>
+                            </div>
+                            <div class="kc-title">Equity Refresh (Rahul M.)</div>
+                            <div class="kc-sub">Approved by CFO. Pending letter.</div>
+                            <div class="kc-footer">
+                                <span><span class="origin-badge ob-dp"></span> DP</span>
+                                <span>5d ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- In Progress -->
+                <div class="board-column">
+                    <div class="column-header">
+                        In Progress <span class="column-count">2</span>
+                    </div>
+                    <div class="column-body">
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-retention">Culture</span>
+                            </div>
+                            <div class="kc-title">Town Hall Integration</div>
+                            <div class="kc-sub">Joint session planning.</div>
+                            <div class="kc-footer">
+                                <span>Global</span>
+                                <span>1w ago</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card">
+                            <div class="kc-tags">
+                                <span class="kc-tag tag-comp">Role</span>
+                            </div>
+                            <div class="kc-title">Role Mapping (Sales)</div>
+                            <div class="kc-sub">Finalizing territory mapping.</div>
+                            <div class="kc-footer">
+                                <span>Global</span>
+                                <span>3d ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed -->
+                <div class="board-column">
+                    <div class="column-header">
+                        Completed <span class="column-count">12</span>
+                    </div>
+                    <div class="column-body">
+                        <div class="kanban-card" style="opacity: 0.6;">
+                            <div class="kc-title">Day 1 Comms</div>
+                            <div class="kc-sub">Sent to all employees.</div>
+                            <div class="kc-footer">
+                                <span>Done</span>
+                                <span>42d ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="data.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

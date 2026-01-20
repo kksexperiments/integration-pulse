@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Pulse™ | M&A People Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-box">LV</div>
+                <div>
+                    <strong>Integration Pulse™</strong>
+                    <div class="integration-status">M&A Analytics Control Tower</div>
+                </div>
+            </div>
+            <div class="day-counter">
+                Day 42 of 180
+            </div>
+        </header>
+
+        <nav>
+            <a href="index.html" class="active">Command Center</a>
+            <a href="talent.html">Talent Pulse</a>
+            <a href="accounts.html">Account Risk</a>
+            <a href="scenarios.html">Scenario Lab</a>
+            <a href="actions.html">Action Hub</a>
+        </nav>
+
+        <main>
+            <div class="dashboard-header">
+                <h1>Command Center</h1>
+                <div class="last-updated">Last updated: Just now</div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Integration Health Score -->
+                <div class="card hero-card">
+                    <h3 class="card-title">Integration Health</h3>
+                    <div class="health-score-container">
+                        <div class="gauge">
+                            <div class="gauge-bg"></div>
+                            <div class="gauge-fill" id="health-gauge"></div>
+                            <div class="gauge-cover">
+                                <span class="score-value" id="health-score">0</span>
+                            </div>
+                        </div>
+                        <div class="trend-indicator up">▲ +3 from last week</div>
+                        <div class="sub-metrics" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary);">Talent</div>
+                                <div style="font-weight: 600;" id="score-talent">--</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary);">Culture</div>
+                                <div style="font-weight: 600;" id="score-culture">--</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary);">Ops</div>
+                                <div style="font-weight: 600;" id="score-ops">--</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-tertiary);">Cost</div>
+                                <div style="font-weight: 600;" id="score-cost">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Revenue At Risk -->
+                <div class="card hero-card">
+                    <h3 class="card-title">Revenue At Risk</h3>
+                    <div
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1;">
+                        <div class="metric-value" id="revenue-at-risk">$0.0M</div>
+                        <div class="metric-subtext" id="revenue-percentage">--% of total at risk</div>
+                        <a href="accounts.html"
+                            style="margin-top: 1rem; color: var(--lv-blue-600); font-size: 0.875rem; text-decoration: none;">By
+                            Account ►</a>
+                    </div>
+                </div>
+
+                <!-- Critical Alerts -->
+                <div class="card alerts-card">
+                    <h3 class="card-title">Critical Alerts</h3>
+                    <div id="alerts-list">
+                        <!-- Alerts populated by JS -->
+                        <div class="alert-item">Loading alerts...</div>
+                    </div>
+                </div>
+
+                <!-- Revenue At Risk By Account -->
+                <div class="card chart-card">
+                    <h3 class="card-title">Revenue At Risk By Account</h3>
+                    <div id="account-chart"
+                        style="flex: 1; display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
+                        <!-- Chart bars populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Attrition Comparison -->
+                <div class="card chart-card">
+                    <h3 class="card-title">Attrition Comparison</h3>
+                    <div
+                        style="flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); font-style: italic;">
+                        Attrition Trend Visualization
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script src="data.js"></script>
+        <script src="app.js"></script>
+        <script src="chatbot.js"></script>
+</body>
+
+</html>

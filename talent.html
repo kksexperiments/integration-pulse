@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Pulse | Integration Pulse™</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* Specific Page Styles */
+        .controls-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-default);
+            background-color: var(--surface-white);
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Matrix Styles */
+        .matrix-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--border-light);
+            background-color: var(--surface-white);
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .quadrant-label {
+            position: absolute;
+            font-size: 0.75rem;
+            font-weight: 700;
+            opacity: 0.5;
+            text-transform: uppercase;
+            padding: 1rem;
+        }
+
+        .quadrant-bg {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            pointer-events: none;
+        }
+
+        .q-act {
+            top: 0;
+            right: 0;
+            background-color: rgba(220, 38, 38, 0.05);
+        }
+
+        .q-monitor {
+            top: 0;
+            left: 0;
+            background-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .q-develop {
+            bottom: 0;
+            right: 0;
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+
+        .q-stable {
+            bottom: 0;
+            left: 0;
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .matrix-point {
+            position: absolute;
+            border-radius: 50%;
+            transform: translate(-50%, 50%);
+            /* Bottom-left origin system correction */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .matrix-point:hover {
+            opacity: 1;
+            z-index: 10;
+            transform: translate(-50%, 50%) scale(1.5);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .matrix-point.lv {
+            background-color: var(--lv-blue-600);
+        }
+
+        .matrix-point.dp {
+            background-color: var(--lv-accent-orange);
+        }
+
+        .matrix-axis-label {
+            position: absolute;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        /* Watchlist Table */
+        .watchlist-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .watchlist-table th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-light);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .watchlist-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .watchlist-table tr:hover {
+            background-color: var(--bg-primary);
+        }
+
+        .risk-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .risk-high {
+            background-color: rgba(220, 38, 38, 0.1);
+            color: var(--risk-high);
+        }
+
+        .risk-medium {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--risk-medium);
+        }
+
+        .risk-low {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--risk-low);
+        }
+
+        .signal-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+
+        .sig-red {
+            background-color: var(--status-danger);
+        }
+
+        .sig-amber {
+            background-color: var(--status-warning);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-box">LV</div>
+                <div>
+                    <strong>Integration Pulse™</strong>
+                    <div class="integration-status">M&A Analytics Control Tower</div>
+                </div>
+            </div>
+            <div class="day-counter">
+                Day 42 of 180
+            </div>
+        </header>
+
+        <nav>
+            <a href="index.html">Command Center</a>
+            <a href="talent.html" class="active">Talent Pulse</a>
+            <a href="accounts.html">Account Risk</a>
+            <a href="scenarios.html">Scenario Lab</a>
+            <a href="actions.html">Action Hub</a>
+        </nav>
+
+        <main>
+            <div class="dashboard-header">
+                <h1>Talent Pulse</h1>
+                <div class="controls-bar">
+                    <select id="filter-function" class="filter-select">
+                        <option value="all">All Functions</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Technology">Technology</option>
+                        <option value="RGM">RGM</option>
+                        <option value="Product">Product</option>
+                    </select>
+                    <select id="filter-geo" class="filter-select">
+                        <option value="all">All Geographies</option>
+                        <option value="India">India</option>
+                        <option value="US">US</option>
+                        <option value="Europe">Europe</option>
+                        <option value="LatAm">LatAm</option>
+                    </select>
+                    <select id="filter-designation" class="filter-select">
+                        <option value="all">All Designations</option>
+                        <!-- Populated by JS -->
+                    </select>
+                    <select id="filter-account" class="filter-select">
+                        <option value="all">All Accounts</option>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <div style="margin-left:auto; display:flex; align-items:center; gap:0.5rem;">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle-mapping-risk">
+                        <span class="slider round"></span>
+                    </label>
+                    <span style="font-size: 0.875rem; font-weight: 500;">Show Mapping Risk</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Flight Risk Matrix -->
+                <div class="card" style="grid-column: span 6; min-height: 500px;">
+                    <h3 class="card-title">Flight Risk Matrix</h3>
+                    <div class="matrix-container" id="matrix-container">
+                        <!-- Quadrant Backgrounds -->
+                        <div class="quadrant-bg q-monitor"></div>
+                        <div class="quadrant-bg q-act"></div>
+                        <div class="quadrant-bg q-stable"></div>
+                        <div class="quadrant-bg q-develop"></div>
+
+                        <!-- Labels -->
+                        <div class="quadrant-label" style="top:0; left:0;">Monitor</div>
+                        <div class="quadrant-label" style="top:0; right:0; color: var(--risk-high); opacity: 1;">Act Now
+                        </div>
+                        <div class="quadrant-label" style="bottom:0; left:0; color: var(--risk-low); opacity: 1;">Stable
+                        </div>
+                        <div class="quadrant-label" style="bottom:0; right:0;">Develop</div>
+
+                        <!-- Axis Labels -->
+                        <div class="matrix-axis-label" style="bottom: 10px; left: 50%; transform: translateX(-50%);">
+                            Flight Risk ➝</div>
+                        <div class="matrix-axis-label"
+                            style="left: 10px; top: 50%; transform: translateY(-50%) rotate(-90deg);">Business Impact ➝
+                        </div>
+
+                        <!-- Points injected by JS -->
+                    </div>
+                    <div
+                        style="margin-top: 1rem; display: flex; text-align: center; gap: 1rem; justify-content: center; font-size: 0.75rem; color: var(--text-secondary);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;"><span
+                                style="width: 10px; height: 10px; background: var(--lv-blue-600); border-radius: 50%;"></span>
+                            LatentView</div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;"><span
+                                style="width: 10px; height: 10px; background: var(--lv-accent-orange); border-radius: 50%;"></span>
+                            Decision Point</div>
+                    </div>
+                </div>
+
+                <!-- High Priority Watchlist -->
+                <div class="card" style="grid-column: span 6; height: 500px; display: flex; flex-direction: column;">
+                    <h3 class="card-title">High-Priority Watchlist</h3>
+                    <div style="overflow-y: auto; flex: 1; max-height: 420px;">
+                        <table class="watchlist-table">
+                            <thead>
+                                <tr>
+                                    <th>Risk</th>
+                                    <th>Name / Role</th>
+                                    <th>Account</th>
+                                    <th>Signals</th>
+                                </tr>
+                            </thead>
+                            <tbody id="watchlist-body">
+                                <!-- Rows injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Signal Intensity Dashboard -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Signal Intensity Dashboard</h3>
+                    <p style="font-size:0.75rem; color:var(--text-tertiary); margin-bottom:1rem;">What's driving flight
+                        risk?</p>
+                    <div id="signal-intensity-container" style="padding: 1rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Regrettable Loss Index -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Regrettable Loss Index</h3>
+                    <p style="font-size:0.75rem; color:var(--text-tertiary); margin-bottom:1rem;">High risk + High
+                        impact = Act Now</p>
+                    <div id="regrettable-loss-container" style="padding: 1rem; max-height: 280px; overflow-y: auto;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Grade Mapping Pulse -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Grade Mapping Pulse</h3>
+                    <p style="font-size:0.75rem; color:var(--text-tertiary); margin-bottom:1rem;">Integration
+                        uncertainty tracker</p>
+                    <div id="grade-mapping-container" style="padding: 1rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Seniority Risk Pyramid -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Seniority Risk Pyramid</h3>
+                    <p style="font-size:0.75rem; color:var(--text-tertiary); margin-bottom:1rem;">Where in the org is
+                        risk concentrated?</p>
+                    <div id="seniority-pyramid-container" style="padding: 1rem;">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="data.js"></script>
+    <script src="talent.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>

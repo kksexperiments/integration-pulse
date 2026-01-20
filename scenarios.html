@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario Lab | Integration Pulse™</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: calc(100vh - 180px);
+        }
+
+        .panel {
+            background-color: var(--surface-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            background-color: var(--bg-secondary);
+        }
+
+        .panel-body {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Employee List */
+        .emp-select-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .emp-select-item:hover {
+            border-color: var(--lv-blue-400);
+            background-color: #EFF6FF;
+        }
+
+        .emp-select-item.selected {
+            border-color: var(--lv-blue-600);
+            background-color: #EFF6FF;
+            box-shadow: 0 0 0 2px var(--lv-blue-100);
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-tertiary);
+            border-radius: 4px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .emp-select-item.selected .checkbox-custom {
+            background-color: var(--lv-blue-600);
+            border-color: var(--lv-blue-600);
+        }
+
+        /* Results */
+        .result-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .rc-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .rc-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--lv-navy-900);
+        }
+
+        .rc-sub {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-top: 0.5rem;
+        }
+
+        .rc-success .rc-value {
+            color: var(--status-success);
+        }
+
+        .rc-danger .rc-value {
+            color: var(--status-danger);
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--lv-blue-600);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .action-button:hover {
+            background-color: var(--lv-blue-500);
+        }
+
+        .reset-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-tertiary);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <div class="logo-box">LV</div>
+                <div>
+                    <strong>Integration Pulse™</strong>
+                    <div class="integration-status">M&A Analytics Control Tower</div>
+                </div>
+            </div>
+            <div class="day-counter">
+                Day 42 of 180
+            </div>
+        </header>
+
+        <nav>
+            <a href="index.html">Command Center</a>
+            <a href="talent.html">Talent Pulse</a>
+            <a href="accounts.html">Account Risk</a>
+            <a href="scenarios.html" class="active">Scenario Lab</a>
+            <a href="actions.html">Action Hub</a>
+        </nav>
+
+        <main>
+            <div class="dashboard-header">
+                <h1>Scenario Lab</h1>
+            </div>
+
+            <div class="split-layout">
+                <!-- Builder -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>1. Select At-Risk Employees</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary);">Select key personnel to model
+                            departure impact.</p>
+                    </div>
+                    <div class="panel-body" id="employee-list">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Analysis -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>2. Projected Impact Analysis</h3>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary);">Estimated financial impact and ROI
+                            of retention.</p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="result-card rc-danger">
+                            <div class="rc-label">Direct Revenue Risk</div>
+                            <div class="rc-value" id="res-revenue">$0</div>
+                            <div class="rc-sub">Total revenue attached to selected employees</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="result-card">
+                                <div class="rc-label">Est. Retention Cost</div>
+                                <div class="rc-value" id="res-cost">$0</div>
+                                <div class="rc-sub">Based on 15% salary est.</div>
+                            </div>
+                            <div class="result-card rc-success">
+                                <div class="rc-label">Projected ROI</div>
+                                <div class="rc-value" id="res-roi">0x</div>
+                                <div class="rc-sub">Return on Intervention</div>
+                            </div>
+                        </div>
+
+                        <div
+                            style="padding: 1.5rem; background: var(--bg-tertiary); border-radius: var(--radius-md); margin-bottom: 2rem;">
+                            <h4 style="margin-bottom: 0.5rem;">AI Recommendation</h4>
+                            <p id="ai-rec" style="font-size: 0.875rem; color: var(--text-secondary);">Select employees
+                                to generate a business case.</p>
+                        </div>
+
+                        <button class="action-button">Generate Business Case PDF</button>
+                        <a class="reset-link" onclick="resetSelection()">Reset Scenario</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="data.js"></script>
+    <script src="scenarios.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
