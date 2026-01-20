@@ -12,93 +12,17 @@
         rel="stylesheet">
     <link rel="stylesheet" href="index.css">
     <style>
-        /* Bubble Chart & Cards */
-        .bubble-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            border-left: 1px solid var(--border-default);
-            border-bottom: 1px solid var(--border-default);
-            margin: 2rem 0 1rem 2rem;
-            /* space for axis labels */
-            background: linear-gradient(45deg, rgba(16, 185, 129, 0.02) 0%, rgba(220, 38, 38, 0.05) 100%);
-        }
+        /* Account Risk Specific Styles */
 
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.75rem;
-            transform: translate(-50%, 50%);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .bubble:hover {
-            z-index: 10;
-            transform: translate(-50%, 50%) scale(1.1);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-
-        .bubble::after {
-            content: attr(data-label);
-            position: absolute;
-            top: -20px;
-            color: var(--text-primary);
-            font-weight: 600;
-            white-space: nowrap;
-            text-shadow: 0 1px 2px white;
-        }
-
-        .b-high {
-            background: radial-gradient(circle at 30% 30%, #EF4444, #991B1B);
-            border: 2px solid white;
-        }
-
-        .b-med {
-            background: radial-gradient(circle at 30% 30%, #F59E0B, #B45309);
-            border: 2px solid white;
-        }
-
-        .b-low {
-            background: radial-gradient(circle at 30% 30%, #10B981, #047857);
-            border: 2px solid white;
-        }
-
-        .axis-label-y {
-            position: absolute;
-            top: 50%;
-            left: -40px;
-            transform: translateY(-50%) rotate(-90deg);
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-        }
-
-        .axis-label-x {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-        }
-
-        /* Summary Cards */
+        /* Summary Cards Row */
         .account-cards-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 1rem;
             margin-bottom: 2rem;
         }
 
         .account-card {
-            min-width: 200px;
             background-color: var(--surface-white);
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
@@ -110,31 +34,145 @@
         .account-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+            border-color: var(--lv-blue-400);
         }
 
         .account-card.active {
             border-color: var(--lv-blue-600);
             background-color: #EFF6FF;
-            /* Blue 50 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         .ac-header {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.875rem;
             margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ac-risk-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         .ac-metric {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--lv-navy-800);
         }
 
         .ac-risk {
             font-size: 0.875rem;
-            color: var(--risk-high);
             margin-top: 0.25rem;
             font-weight: 500;
+        }
+
+        /* Revenue at Risk Bar Chart */
+        .risk-bar-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding: 1rem 0;
+        }
+
+        .risk-bar-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 80px;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius-md);
+            transition: background 0.2s;
+        }
+
+        .risk-bar-row:hover {
+            background: var(--bg-secondary);
+        }
+
+        .risk-bar-row.active {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .risk-bar-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .risk-bar-track {
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .risk-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: width 0.5s ease-out;
+        }
+
+        .risk-bar-value {
+            font-weight: 700;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+        }
+
+        /* Renewal Timeline */
+        .timeline-container {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .timeline-item {
+            min-width: 140px;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .timeline-item:hover {
+            border-color: var(--lv-blue-400);
+        }
+
+        .timeline-item.urgent {
+            background: rgba(220, 38, 38, 0.1);
+            border-color: var(--status-danger);
+        }
+
+        .timeline-month {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+            margin-bottom: 4px;
+        }
+
+        .timeline-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .timeline-days {
+            font-size: 0.75rem;
+            margin-top: 4px;
+            font-weight: 600;
         }
 
         /* Detail Panel */
@@ -145,7 +183,7 @@
             border: 1px solid var(--border-light);
             overflow: hidden;
             display: none;
-            /* Hidden by default */
+            margin-top: 1rem;
         }
 
         .detail-panel.visible {
@@ -174,25 +212,37 @@
             align-items: center;
         }
 
-        .dp-content {
-            padding: 1.5rem;
+        .dp-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .dp-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .personnel-row {
             display: flex;
             align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border-light);
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
             gap: 1rem;
+            transition: background 0.2s;
+        }
+
+        .personnel-row:hover {
+            background: var(--bg-secondary);
         }
 
         .risk-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .rd-red {
@@ -205,6 +255,43 @@
 
         .rd-green {
             background-color: var(--risk-low);
+        }
+
+        /* SOW Cards */
+        .sow-card {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.75rem;
+            border-left: 4px solid var(--lv-blue-600);
+        }
+
+        .sow-card.at-risk {
+            border-left-color: var(--status-danger);
+            background: rgba(220, 38, 38, 0.05);
+        }
+
+        .sow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .sow-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .sow-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .sow-meta {
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
         }
     </style>
 </head>
@@ -235,34 +322,51 @@
         <main>
             <div class="dashboard-header">
                 <h1>Account Risk</h1>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">How talent risk translates to client
+                    revenue exposure</p>
             </div>
 
-            <!-- Account Cards -->
+            <!-- Account Summary Cards -->
             <div class="account-cards-row" id="accounts-row">
                 <!-- Injected via JS -->
             </div>
 
             <div class="dashboard-grid">
-                <!-- Matrix -->
-                <div class="card" style="grid-column: span 12;">
-                    <h3 class="card-title">Account Risk Matrix</h3>
-                    <div style="position: relative;">
-                        <div class="bubble-container" id="bubble-container">
-                            <!-- Bubbles injected via JS -->
-                        </div>
-                        <div class="axis-label-y">Annual Revenue ➝</div>
-                        <div class="axis-label-x">People Risk Score ➝</div>
+                <!-- Revenue at Risk Bar Chart -->
+                <div class="card" style="grid-column: span 8;">
+                    <h3 class="card-title">Revenue at Risk by Account</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 1rem;">Click an account to
+                        see details</p>
+                    <div class="risk-bar-container" id="risk-bars">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Renewal Timeline -->
+                <div class="card" style="grid-column: span 4;">
+                    <h3 class="card-title">Upcoming Renewals</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 1rem;">Accounts requiring
+                        attention before renewal</p>
+                    <div class="timeline-container" id="renewal-timeline" style="flex-direction: column;">
+                        <!-- Injected via JS -->
                     </div>
                 </div>
 
                 <!-- Detail Panel -->
                 <div class="detail-panel" id="detail-panel">
-                    <div
-                        style="padding: 1.5rem; border-bottom: 1px solid var(--border-light); display: flex; justify-content: flex-end;">
+                    <div class="dp-header">
+                        <div>
+                            <h2 id="dp-title"
+                                style="margin:0; font-size:1.25rem; font-weight:700; color:var(--lv-navy-900);">Account
+                                Name</h2>
+                            <div id="dp-meta"
+                                style="color:var(--text-secondary); margin-top:0.25rem; font-size:0.875rem;">Renewal: --
+                            </div>
+                        </div>
                         <button onclick="closePanel()"
-                            style="padding: 0.5rem; cursor: pointer; background: none; border: none; font-size: 1.5rem; color: var(--text-tertiary);">&times;</button>
+                            style="padding:0.5rem 1rem; background:white; border:1px solid var(--border-default); border-radius:var(--radius-md); cursor:pointer;">Close</button>
                     </div>
-                    <div id="account-detail-content" style="padding: 1.5rem;">
+                    <div class="dp-grid" id="account-detail-content">
                         <!-- Injected via JS -->
                     </div>
                 </div>
