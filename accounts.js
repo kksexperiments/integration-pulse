@@ -61,10 +61,11 @@ function renderCards(accounts) {
     const sorted = [...accounts].sort((a, b) => b.revenueAtRisk - a.revenueAtRisk);
 
     sorted.forEach(acc => {
-        const riskColor = acc.peopleRiskScore > 50 ? 'var(--status-danger)' :
-            acc.peopleRiskScore > 45 ? 'var(--lv-accent-orange)' : 'var(--status-success)';
-        const riskBg = acc.peopleRiskScore > 50 ? 'rgba(220,38,38,0.1)' :
-            acc.peopleRiskScore > 45 ? 'rgba(245,158,11,0.1)' : 'rgba(16,185,129,0.1)';
+        // Badge color logic - keep distinct for badge readability, but muted
+        let riskBg = 'var(--lv-blue-100)';
+        let riskColor = 'var(--lv-blue-800)';
+        if (acc.peopleRiskScore > 48) { riskBg = 'var(--lv-blue-200)'; riskColor = 'var(--lv-primary)'; }
+        if (acc.peopleRiskScore > 50) { riskBg = 'var(--lv-blue-300)'; riskColor = 'var(--lv-navy-900)'; }
 
         const card = document.createElement('div');
         card.className = 'account-card';
@@ -97,8 +98,11 @@ function renderRiskBars(accounts) {
 
     sorted.forEach(acc => {
         const pct = (acc.revenueAtRisk / maxRisk) * 100;
-        const color = acc.peopleRiskScore > 50 ? 'var(--status-danger)' :
-            acc.peopleRiskScore > 45 ? 'var(--lv-accent-orange)' : 'var(--status-success)';
+        // Blue Monochrome Palette for risk bars
+        // Darker blue for higher risk, lighter for lower
+        let color = 'var(--lv-blue-400)';
+        if (acc.peopleRiskScore > 50) color = 'var(--lv-primary)';
+        if (acc.peopleRiskScore > 48) color = 'var(--lv-blue-600)';
 
         const row = document.createElement('div');
         row.className = 'risk-bar-row';

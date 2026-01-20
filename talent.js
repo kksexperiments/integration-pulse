@@ -17,12 +17,20 @@ async function loadTalentData() {
 
         populateFilters(allEmployees);
         renderView(allEmployees);
+        filterData(); // Call filterData initially to render with default filters
     } catch (error) {
         console.error('Error loading talent data:', error);
     }
 }
 
 function filterData() {
+    // Unified Blue Palette for non-matrix charts
+    const colors = {
+        high: getComputedStyle(document.documentElement).getPropertyValue('--lv-primary').trim(),
+        medium: getComputedStyle(document.documentElement).getPropertyValue('--lv-blue-600').trim(),
+        low: getComputedStyle(document.documentElement).getPropertyValue('--lv-blue-400').trim()
+    };
+
     const filtered = allEmployees.filter(emp => {
         const fn = document.getElementById('filter-function').value;
         const geo = document.getElementById('filter-geo').value;
