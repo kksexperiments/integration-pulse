@@ -346,6 +346,10 @@ main {
   grid-column: span 12;
 }
 
+.hero-card.summary-card {
+  grid-column: span 6;
+}
+
 .timeline-card {
   grid-column: span 12;
 }
