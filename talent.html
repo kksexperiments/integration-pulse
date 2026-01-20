@@ -203,9 +203,14 @@
         </nav>
 
         <main>
-            <div class="dashboard-header">
-                <h1>Talent Pulse</h1>
-                <div class="controls-bar">
+            <div class="dashboard-header"
+                style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
+                <div style="display: flex; align-items: baseline; gap: 1.5rem;">
+                    <h1>Talent Pulse</h1>
+                    <span style="color: var(--text-secondary); font-size: 0.875rem;">Flight risk signals and retention
+                        priorities</span>
+                </div>
+                <div class="controls-bar" style="margin-bottom: 0;">
                     <select id="filter-function" class="filter-select">
                         <option value="all">All Functions</option>
                         <option value="Delivery">Delivery</option>

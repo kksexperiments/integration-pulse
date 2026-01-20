@@ -102,13 +102,13 @@ function calculateImpact() {
     // Render Cascade: Accounts
     const cascadeAccounts = document.getElementById('cascade-accounts');
     if (impactedAccounts.length > 0) {
-        let accountsHtml = `<div class="cascade-title">🏢 Accounts at Risk</div>`;
+        let accountsHtml = `<div class="cascade-title">Accounts at Risk</div>`;
         impactedAccounts.forEach(acc => {
             const accEmps = selectedEmps.filter(e => e.account === acc);
             const accRevenue = accEmps.reduce((s, e) => s + (e.revenueAtRisk || 0), 0);
             accountsHtml += `
                 <div class="cascade-item critical">
-                    <div class="cascade-icon" style="background:var(--status-danger); color:white;">⚠</div>
+                    <div class="cascade-icon" style="background:var(--status-danger); color:white;">!</div>
                     <div style="flex:1;">
                         <div style="font-weight:600; font-size:0.875rem;">${acc}</div>
                         <div style="font-size:0.75rem; color:var(--text-tertiary);">${accEmps.length} key departures</div>
@@ -127,12 +127,12 @@ function calculateImpact() {
     // Render Cascade: Secondary Team Risks
     const cascadeTeam = document.getElementById('cascade-team');
     if (secondaryRisks.length > 0) {
-        let teamHtml = `<div class="cascade-title">👥 Secondary Flight Risks</div>`;
+        let teamHtml = `<div class="cascade-title">Secondary Flight Risks</div>`;
         teamHtml += `<p style="font-size:0.75rem; color:var(--text-tertiary); margin-bottom:0.75rem;">Team members who may follow if key people leave:</p>`;
         secondaryRisks.forEach(emp => {
             teamHtml += `
                 <div class="cascade-item warning">
-                    <div class="cascade-icon" style="background:var(--lv-accent-orange); color:white;">👤</div>
+                    <div class="cascade-icon" style="background:var(--lv-accent-orange); color:white;">+</div>
                     <div style="flex:1;">
                         <div style="font-weight:600; font-size:0.875rem;">${emp.name}</div>
                         <div style="font-size:0.75rem; color:var(--text-tertiary);">${emp.role} • ${emp.account}</div>
@@ -156,16 +156,16 @@ function calculateImpact() {
         aiRec.innerHTML = `
             <span style="color:var(--status-success); font-weight:700;">✓ HIGHLY RECOMMENDED</span><br>
             Invest $${(retentionCost / 1000).toFixed(0)}K in retention to protect $${(totalRevenue / 1000).toFixed(0)}K revenue across ${impactedAccounts.length} account(s). 
-            ${secondaryRisks.length > 0 ? `<br><br>⚠️ Warning: ${secondaryRisks.length} additional team members may follow.` : ''}
+            ${secondaryRisks.length > 0 ? `<br><br>Note: ${secondaryRisks.length} additional team members may follow.` : ''}
         `;
     } else if (roi > 2) {
         aiRec.innerHTML = `
-            <span style="color:var(--lv-accent-orange); font-weight:700;">⚡ MODERATE ROI</span><br>
+            <span style="color:var(--lv-accent-orange); font-weight:700;">MODERATE ROI</span><br>
             Consider targeted retention for highest-impact individuals. Full intervention may have diminishing returns.
         `;
     } else {
         aiRec.innerHTML = `
-            <span style="color:var(--text-secondary); font-weight:700;">📊 REVIEW NEEDED</span><br>
+            <span style="color:var(--text-secondary); font-weight:700;">REVIEW NEEDED</span><br>
             ROI is marginal. Focus on knowledge transfer and succession planning instead of costly retention.
         `;
     }
@@ -174,6 +174,6 @@ function calculateImpact() {
     const btn = document.getElementById('generate-btn');
     btn.disabled = selectedIds.size === 0;
     btn.textContent = selectedIds.size > 0
-        ? `📄 Generate Business Case (${selectedIds.size} selected)`
-        : '📄 Generate Business Case';
+        ? `Generate Business Case (${selectedIds.size} selected)`
+        : 'Generate Business Case';
 }

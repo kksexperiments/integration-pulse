@@ -202,7 +202,7 @@ function renderSignalIntensity(employees) {
     // Actionable insight
     const topSignal = Object.entries(signalCounts).sort((a, b) => b[1].count - a[1].count)[0];
     html += `<div style="margin-top:1rem; padding:0.75rem; background:var(--bg-secondary); border-radius:var(--radius-md); font-size:0.875rem;">
-        <strong>🎯 Priority Action:</strong> ${topSignal[1].count > 0 ? `Address <strong style="color:${topSignal[1].color}">${topSignal[1].label}</strong> — affecting ${topSignal[1].count} employees` : 'No signals detected'}
+        <strong>Priority Action:</strong> ${topSignal[1].count > 0 ? `Address <strong style="color:${topSignal[1].color}">${topSignal[1].label}</strong> — affecting ${topSignal[1].count} employees` : 'No signals detected'}
     </div>`;
 
     container.innerHTML = html;
@@ -221,7 +221,7 @@ function renderRegrettableLoss(employees) {
         .slice(0, 10);
 
     if (criticalList.length === 0) {
-        container.innerHTML = '<div style="text-align:center; color:var(--text-tertiary); padding:2rem;">✅ No critical regrettable loss risks detected</div>';
+        container.innerHTML = '<div style="text-align:center; color:var(--text-tertiary); padding:2rem;">No critical regrettable loss risks detected</div>';
         return;
     }
 
@@ -293,7 +293,7 @@ function renderGradeMappingPulse(employees) {
         </div>
 
         <div style="margin-top:1rem; padding:0.75rem; background:${pendingPct > 50 ? 'rgba(220,38,38,0.1)' : 'rgba(16,185,129,0.1)'}; border-radius:var(--radius-md); font-size:0.875rem;">
-            ${pendingPct > 50 ? '⚠️ <strong>High uncertainty</strong> — ' + pending + ' employees await grade mapping. Prioritize HR completion.' : '✅ Grade mapping on track.'}
+            ${pendingPct > 50 ? '<strong>High uncertainty</strong> — ' + pending + ' employees await grade mapping. Prioritize HR completion.' : 'Grade mapping on track.'}
         </div>
     `;
 
@@ -349,7 +349,7 @@ function renderSeniorityPyramid(employees) {
         , roleOrder[0]);
 
     html += `<div style="margin-top:1rem; padding:0.75rem; background:var(--bg-secondary); border-radius:var(--radius-md); font-size:0.875rem;">
-        🎯 <strong>${highestRiskLevel}</strong> level shows highest avg risk (${levels[highestRiskLevel].avgRisk}) — focus retention efforts here.
+        <strong>${highestRiskLevel}</strong> level shows highest avg risk (${levels[highestRiskLevel].avgRisk}) — focus retention efforts here.
     </div>`;
 
     container.innerHTML = html;

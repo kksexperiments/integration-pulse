@@ -320,10 +320,10 @@
         </nav>
 
         <main>
-            <div class="dashboard-header">
+            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
                 <h1>Account Risk</h1>
-                <p style="color: var(--text-secondary); margin-top: 0.5rem;">How talent risk translates to client
-                    revenue exposure</p>
+                <span style="color: var(--text-secondary); font-size: 0.875rem;">How talent risk translates to client
+                    revenue exposure</span>
             </div>
 
             <!-- Account Summary Cards -->
@@ -333,21 +333,22 @@
 
             <div class="dashboard-grid">
                 <!-- Revenue at Risk Bar Chart -->
-                <div class="card" style="grid-column: span 8;">
+                <div class="card" style="grid-column: span 6;">
                     <h3 class="card-title">Revenue at Risk by Account</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 1rem;">Click an account to
-                        see details</p>
-                    <div class="risk-bar-container" id="risk-bars">
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Click an account
+                        to see details</p>
+                    <div class="risk-bar-container" id="risk-bars" style="max-height: 280px; overflow-y: auto;">
                         <!-- Injected via JS -->
                     </div>
                 </div>
 
                 <!-- Renewal Timeline -->
-                <div class="card" style="grid-column: span 4;">
+                <div class="card" style="grid-column: span 6;">
                     <h3 class="card-title">Upcoming Renewals</h3>
-                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 1rem;">Accounts requiring
-                        attention before renewal</p>
-                    <div class="timeline-container" id="renewal-timeline" style="flex-direction: column;">
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Accounts
+                        requiring attention before renewal</p>
+                    <div class="timeline-container" id="renewal-timeline"
+                        style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-height: 280px; overflow-y: auto;">
                         <!-- Injected via JS -->
                     </div>
                 </div>

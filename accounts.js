@@ -210,7 +210,7 @@ function selectAccount(account) {
                         <span class="sow-value" style="color:${sow.atRisk ? 'var(--status-danger)' : 'var(--lv-navy-800)'}">$${(sow.value / 1000).toFixed(0)}K</span>
                     </div>
                     <div class="sow-meta">
-                        ${sow.headcount} people assigned ${sow.atRisk ? '• ⚠️ Key person at risk' : ''}
+                        ${sow.headcount} people assigned ${sow.atRisk ? '• Key person at risk' : ''}
                     </div>
                 </div>
             `;
@@ -268,7 +268,7 @@ function selectAccount(account) {
                     </div>
                 </div>
                 <div style="margin-top: 0.5rem; text-align: center; font-size: 0.75rem; color: var(--text-tertiary);">
-                    ${levelCounts['Directors'] > levelCounts['Associates'] ? '⚠️ Top-Heavy Risk' : '✅ Healthy Leverage'}
+                    ${levelCounts['Directors'] > levelCounts['Associates'] ? 'Top-Heavy Risk' : 'Healthy Leverage'}
                 </div>
             </div>
         </div>

@@ -293,10 +293,10 @@
         </nav>
 
         <main>
-            <div class="dashboard-header">
+            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
                 <h1>Action Hub</h1>
-                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Prioritized interventions to protect talent
-                    and revenue</p>
+                <span style="color: var(--text-secondary); font-size: 0.875rem;">Prioritized interventions to protect
+                    talent and revenue</span>
             </div>
 
             <!-- Summary Stats -->
@@ -309,7 +309,7 @@
                 <!-- Urgent/High Priority -->
                 <div class="action-card">
                     <div class="action-card-header">
-                        <span class="action-card-title">🔥 Priority Actions</span>
+                        <span class="action-card-title">Priority Actions</span>
                         <span class="action-card-count" id="priority-count">0</span>
                     </div>
                     <div class="action-card-body" id="priority-actions">
@@ -320,7 +320,7 @@
                 <!-- In Progress / Scheduled -->
                 <div class="action-card">
                     <div class="action-card-header">
-                        <span class="action-card-title">⏳ In Progress</span>
+                        <span class="action-card-title">In Progress</span>
                         <span class="action-card-count" id="progress-count">0</span>
                     </div>
                     <div class="action-card-body" id="progress-actions">
@@ -332,7 +332,7 @@
             <!-- Completed Summary -->
             <div class="action-card" style="margin-top: 1.5rem;">
                 <div class="action-card-header">
-                    <span class="action-card-title">✅ Completed Actions</span>
+                    <span class="action-card-title">Completed Actions</span>
                     <span class="action-card-count" id="completed-count">0</span>
                 </div>
                 <div class="action-card-body" id="completed-actions" style="max-height: 150px;">
