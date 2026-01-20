@@ -146,32 +146,44 @@ body {
    Header - Compact
    ============================================ */
 header {
-  background-color: var(--surface);
+  background-color: var(--lv-navy-900);
+  /* Darker Header */
+  color: var(--surface-white);
   padding: 0.5rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--lv-blue-800);
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .logo-box {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--lv-primary) 0%, var(--lv-primary-dark) 100%);
-  border-radius: var(--radius-sm);
+  width: 40px;
+  height: 40px;
+  /* background-color: var(--lv-primary); Removed for image logo */
+  border-radius: var(--radius-md);
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: 800;
-  font-size: 0.875rem;
+  justify-content: center;
   color: white;
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+
+/* Header Text Colors Override for Dark BG */
+header strong {
+  color: var(--surface-white);
+}
+
+.integration-status {
+  font-size: 0.6875rem;
+  color: var(--lv-blue-200);
+  font-weight: 500;
 }
 
 .logo-container strong {
@@ -181,51 +193,89 @@ header {
   letter-spacing: -0.3px;
 }
 
-.integration-status {
-  font-size: 0.6875rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
 .header-actions {
   display: flex;
+  gap: 0.5rem;
   align-items: center;
-  gap: 1rem;
 }
 
 .btn-icon {
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  border: 1px solid var(--lv-blue-700);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--surface-white);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--border-light);
-  background: var(--surface);
-  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
-  font-size: 1.125rem;
+  transition: all var(--transition-fast);
+  font-family: var(--font-mono);
+  position: relative;
 }
 
 .btn-icon:hover {
-  background: var(--bg-secondary);
-  color: var(--lv-primary);
-  border-color: var(--lv-blue-400);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--lv-primary);
 }
 
 .user-profile {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--dp-primary) 0%, var(--dp-primary-dark) 100%);
+  background-color: var(--lv-primary);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--surface-white);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  width: 200px;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: var(--border-light);
+  margin: 0.25rem 0;
 }
 
 /* ============================================

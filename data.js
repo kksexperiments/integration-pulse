@@ -1,3 +1,9 @@
+// Attrition Trend Data (Fixed Mock)
+const ATTRITION_TRENDS = {
+  previous: [12, 11, 13, 11, 10, 12, 14, 15, 13, 12, 11, 10], // Apr '24 - Mar '25
+  current: [10, 9, 11, 10, 8, 9, 10, 11, 9, 8]               // Apr '25 - Jan '26
+};
+
 const RAW_DATA = {
   "health": {
     "overallScore": 72,
