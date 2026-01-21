@@ -92,24 +92,36 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
 
-  /* Border Radius - Larger for soft look */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  /* Border Radius - Consistent Hierarchy */
+  --radius-sm: 6px;
+  /* Tertiary elements (badges, tags) */
+  --radius-md: 8px;
+  /* Secondary elements (alerts, inputs, buttons) */
+  --radius-lg: 12px;
+  /* Primary containers (cards) */
+  --radius-xl: 16px;
+  /* Large containers */
   --radius-full: 9999px;
 
-  /* Shadows - Softer, more subtle */
+  /* Shadows - 3-Tier Hierarchy */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1);
+  /* Resting state */
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  /* Raised/hover state */
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  /* Floating (modals/dropdowns) */
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(28, 86, 171, 0.1);
+  /* Focus state */
 
-  /* Transitions */
+  /* Transitions - Standardized Timing */
   --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s ease;
-  --transition-slow: 0.4s ease;
+  /* Quick interactions (buttons, hovers) */
+  --transition-normal: 0.3s ease;
+  /* Standard transitions */
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Smooth animations (gauges) */
 }
 
 /* Reset & Base */
@@ -345,17 +357,24 @@ main {
 
 .card {
   background-color: var(--surface);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
+  /* Updated: 12px for primary containers */
   padding: 1rem;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-light);
   display: flex;
   flex-direction: column;
-  transition: box-shadow var(--transition-normal);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
 }
 
 .card:hover {
   box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  /* Subtle lift on hover */
+}
+
+.card:focus-within {
+  box-shadow: var(--shadow-focus);
 }
 
 .card-title {
@@ -494,8 +513,11 @@ main {
   border: 1px solid var(--border-light);
   margin-bottom: var(--space-sm);
   border-radius: var(--radius-md);
+  /* 8px for secondary elements */
   gap: var(--space-md);
   transition: all var(--transition-fast);
+  cursor: pointer;
+  /* Added: Clear affordance */
 }
 
 .alert-item:hover {
@@ -536,7 +558,8 @@ main {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-sm);
+  /* Updated: 6px for tertiary elements */
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -578,7 +601,8 @@ main {
   justify-content: center;
   min-width: 40px;
   padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
+  /* Updated: 6px for tertiary elements */
   font-size: 0.875rem;
   font-weight: 700;
   font-family: var(--font-mono);
@@ -612,6 +636,7 @@ main {
   font-size: 0.875rem;
   font-weight: 600;
   border-radius: var(--radius-md);
+  /* 8px for interactive elements */
   border: none;
   cursor: pointer;
   transition: all var(--transition-fast);

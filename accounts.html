@@ -300,16 +300,60 @@
     <div class="app-container">
         <header>
             <div class="logo-container">
-                <div class="logo-box">LV</div>
-                <div>
-                    <strong>Integration Pulse™</strong>
-                    <div class="integration-status">M&A Analytics Control Tower</div>
+                <img src="assets/images/latentview_logo.png" alt="LatentView" style="height: 40px; border-radius: 4px;">
+                <div style="height: 24px; width: 1px; background: rgba(0,0,0,0.1); margin: 0 0.25rem;"></div>
+                <img src="assets/images/decisionpoint_logo.png" alt="Decision Point"
+                    style="height: 32px; border-radius: 4px;">
+                <div style="margin-left: 0.5rem;">
+                    <strong>Integration Pulse</strong>
+                    <div class="integration-status"
+                        style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0px;">
+                        M&A Analytics Control Tower</div>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn-icon" title="Help">?</button>
-                <button class="btn-icon" title="Apps">::</button>
-                <div class="user-profile" title="User Profile">JD</div>
+                <button class="btn-icon" id="btn-help-acc" title="Help" onclick="toggleDropdown('help-menu')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                        <line x1="12" y1="17" x2="12.01" y2="17" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu" id="help-menu">
+                    <a href="#" class="dropdown-item"> Documentation</a>
+                    <a href="#" class="dropdown-item"> Support</a>
+                </div>
+
+                <button class="btn-icon" id="btn-apps-acc" title="Apps" onclick="toggleDropdown('apps-menu')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="14" y="14" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                    </svg>
+                </button>
+                <div class="dropdown-menu" id="apps-menu">
+                    <div class="dropdown-item" style="font-weight:600; color:var(--text-tertiary);">Apps</div>
+                    <a href="index.html" class="dropdown-item"> Command Center</a>
+                    <a href="talent.html" class="dropdown-item"> Talent Pulse</a>
+                    <a href="accounts.html" class="dropdown-item"> Account Risk</a>
+                    <a href="scenarios.html" class="dropdown-item"> Scenario Lab</a>
+                    <a href="actions.html" class="dropdown-item"> Action Hub</a>
+                </div>
+
+                <div class="user-profile" id="btn-profile-acc" title="User Profile"
+                    onclick="toggleDropdown('profile-menu')">JD</div>
+                <div class="dropdown-menu" id="profile-menu">
+                    <div class="dropdown-item" style="flex-direction: column; align-items: flex-start;">
+                        <span style="font-weight: 600;">John Doe</span>
+                        <span style="font-size: 0.75rem; color: var(--text-tertiary);">john.doe@latentview.com</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item"> Profile Settings</a>
+                    <a href="#" class="dropdown-item" style="color: var(--status-danger);"> Sign Out</a>
+                </div>
             </div>
         </header>
 
@@ -324,8 +368,8 @@
         <main>
             <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
                 <h1>Account Risk</h1>
-                <span style="color: var(--text-secondary); font-size: 0.875rem;">How talent risk translates to client
-                    revenue exposure</span>
+                <span style="color: var(--text-secondary); font-size: 0.875rem;">Executive overview of integration
+                    health and key risks</span>
             </div>
 
             <!-- Account Summary Cards -->
@@ -378,7 +422,12 @@
     </div>
     <script src="data.js"></script>
     <script src="accounts.js"></script>
-    <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">💬</div>
+    <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+    </div>
     <script src="chatbot.js"></script>
 </body>
 
