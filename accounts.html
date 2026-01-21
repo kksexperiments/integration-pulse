@@ -341,71 +341,71 @@
                 <a href="#" class="dropdown-item"> Profile Settings</a>
                 <a href="#" class="dropdown-item" style="color: var(--status-danger);"> Sign Out</a>
             </div>
-    </div>
-    </header>
+        </header>
 
-    <nav>
-        <a href="index.html">Command Center</a>
-        <a href="talent.html">Talent Pulse</a>
-        <a href="accounts.html" class="active">Account Risk</a>
-        <a href="scenarios.html">Scenario Lab</a>
-        <a href="actions.html">Action Hub</a>
-    </nav>
+        <nav>
+            <a href="index.html">Command Center</a>
+            <a href="talent.html">Talent Pulse</a>
+            <a href="accounts.html" class="active">Account Risk</a>
+            <a href="scenarios.html">Scenario Lab</a>
+            <a href="actions.html">Action Hub</a>
+        </nav>
 
-    <main>
-        <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
-            <h1>Account Risk</h1>
-            <span style="color: var(--text-secondary); font-size: 0.875rem;">Executive overview of integration
-                health and key risks</span>
-        </div>
-
-        <!-- Account Summary Cards -->
-        <div class="account-cards-row" id="accounts-row">
-            <!-- Injected via JS -->
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Revenue at Risk Bar Chart -->
-            <div class="card" style="grid-column: span 6;">
-                <h3 class="card-title">Revenue at Risk by Account</h3>
-                <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Click an account
-                    to see details</p>
-                <div class="risk-bar-container" id="risk-bars" style="max-height: 280px; overflow-y: auto;">
-                    <!-- Injected via JS -->
-                </div>
+        <main>
+            <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
+                <h1>Account Risk</h1>
+                <span style="color: var(--text-secondary); font-size: 0.875rem;">Executive overview of integration
+                    health and key risks</span>
             </div>
 
-            <!-- Renewal Timeline -->
-            <div class="card" style="grid-column: span 6;">
-                <h3 class="card-title">Upcoming Renewals</h3>
-                <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Accounts
-                    requiring attention before renewal</p>
-                <div class="timeline-container" id="renewal-timeline"
-                    style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-height: 280px; overflow-y: auto;">
-                    <!-- Injected via JS -->
-                </div>
+            <!-- Account Summary Cards -->
+            <div class="account-cards-row" id="accounts-row">
+                <!-- Injected via JS -->
             </div>
 
-            <!-- Detail Panel -->
-            <div class="detail-panel" id="detail-panel">
-                <div class="dp-header">
-                    <div>
-                        <h2 id="dp-title"
-                            style="margin:0; font-size:1.25rem; font-weight:700; color:var(--lv-navy-900);">Account
-                            Name</h2>
-                        <div id="dp-meta" style="color:var(--text-secondary); margin-top:0.25rem; font-size:0.875rem;">
-                            Renewal: --
-                        </div>
+            <div class="dashboard-grid">
+                <!-- Revenue at Risk Bar Chart -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Revenue at Risk by Account</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Click an account
+                        to see details</p>
+                    <div class="risk-bar-container" id="risk-bars" style="max-height: 280px; overflow-y: auto;">
+                        <!-- Injected via JS -->
                     </div>
-                    <button onclick="closePanel()"
-                        style="padding:0.5rem 1rem; background:white; border:1px solid var(--border-default); border-radius:var(--radius-md); cursor:pointer;">Close</button>
                 </div>
-                <div class="dp-grid" id="account-detail-content">
-                    <!-- Injected via JS -->
+
+                <!-- Renewal Timeline -->
+                <div class="card" style="grid-column: span 6;">
+                    <h3 class="card-title">Upcoming Renewals</h3>
+                    <p style="font-size: 0.75rem; color: var(--text-tertiary); margin-bottom: 0.75rem;">Accounts
+                        requiring attention before renewal</p>
+                    <div class="timeline-container" id="renewal-timeline"
+                        style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-height: 280px; overflow-y: auto;">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Detail Panel -->
+                <div class="detail-panel" id="detail-panel">
+                    <div class="dp-header">
+                        <div>
+                            <h2 id="dp-title"
+                                style="margin:0; font-size:1.25rem; font-weight:700; color:var(--lv-navy-900);">Account
+                                Name</h2>
+                            <div id="dp-meta"
+                                style="color:var(--text-secondary); margin-top:0.25rem; font-size:0.875rem;">
+                                Renewal: --
+                            </div>
+                        </div>
+                        <button onclick="closePanel()"
+                            style="padding:0.5rem 1rem; background:white; border:1px solid var(--border-default); border-radius:var(--radius-md); cursor:pointer;">Close</button>
+                    </div>
+                    <div class="dp-grid" id="account-detail-content">
+                        <!-- Injected via JS -->
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
     </div>
     <script src="data.js"></script>
     <script src="accounts.js"></script>
