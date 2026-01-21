@@ -319,8 +319,13 @@ nav a:hover {
 }
 
 nav a.active {
-  background-color: var(--lv-primary);
-  color: white;
+  background-color: var(--bg-tertiary);
+  /* Reduced brand color overuse */
+  border-left: 3px solid var(--lv-primary);
+  /* Blue accent instead of full background */
+  color: var(--lv-primary);
+  padding-left: calc(1rem - 3px);
+  /* Adjust for border */
 }
 
 /* ============================================
@@ -462,11 +467,12 @@ main {
   height: 100px;
   border-top-left-radius: 110px;
   border-top-right-radius: 110px;
-  background: linear-gradient(90deg, var(--lv-primary-dark) 0%, var(--lv-primary) 50%, var(--lv-blue-400) 100%);
+  /* Simplified gradient for better data-to-ink ratio */
+  background: var(--lv-primary);
   position: absolute;
   transform-origin: center bottom;
   transform: rotate(0deg);
-  transition: transform 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+  transition: transform var(--transition-slow);
 }
 
 .gauge-cover {
@@ -1147,6 +1153,34 @@ tr:hover {
   color: var(--text-tertiary);
   margin-top: 0.5rem;
   display: block;
+}
+
+/* ============================================
+   Table Improvements
+   ============================================ */
+.watchlist-table td,
+table td {
+  line-height: 1.8;
+  /* Improved scannability */
+}
+
+.watchlist-table,
+table {
+  border-spacing: 0;
+}
+
+.watchlist-table th,
+table th {
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.watchlist-table td,
+table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
 }
 
 /* Compact Tile Overrides */
