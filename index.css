@@ -380,8 +380,8 @@ main {
 .card-title {
   font-size: 0.875rem;
   /* Increased from 0.8125rem for better readability */
-  font-weight: 800;
-  /* Increased from 700 for stronger hierarchy */
+  font-weight: 600;
+  /* Reduced from 800 for cleaner hierarchy */
   color: var(--text-primary);
   /* Darker for better contrast */
   letter-spacing: -0.01em;
@@ -486,16 +486,22 @@ main {
 
 .score-value {
   font-size: 3rem;
-  font-weight: 800;
+  font-weight: 700;
+  /* Reduced from 800 for cleaner hierarchy */
   color: var(--text-primary);
   letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  /* Perfect alignment for numbers */
 }
 
 .metric-value {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 700;
+  /* Reduced from 800 for cleaner hierarchy */
   color: var(--danger);
   letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+  /* Perfect alignment for numbers */
 }
 
 .metric-subtext {
@@ -1164,6 +1170,66 @@ tr:hover {
 /* Reduced Height Overrides */
 .matrix-container {
   height: 480px !important;
+}
+
+/* ============================================
+   Tabular Numerals for Data Alignment
+   ============================================ */
+.risk-score,
+.revenue-value,
+.percentage-value,
+.watchlist-table td,
+.account-value,
+.metric-number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   Mobile Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+
+  /* Reduce card heights for mobile */
+  .hero-card {
+    min-height: 180px !important;
+  }
+
+  /* Smaller metric values on mobile */
+  .metric-value {
+    font-size: 2rem;
+  }
+
+  .score-value {
+    font-size: 2.5rem;
+  }
+
+  /* Increase touch targets to 44px minimum */
+  .btn-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Stack navigation on mobile */
+  nav {
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.875rem;
+  }
+
+  /* Adjust dashboard grid for mobile */
+  .dashboard-grid {
+    gap: 1rem;
+  }
+
+  /* Full width cards on mobile */
+  .hero-card,
+  .chart-card,
+  .alerts-card {
+    grid-column: span 12 !important;
+  }
 }
 
 .timeline-container {

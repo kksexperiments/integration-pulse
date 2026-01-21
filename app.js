@@ -25,6 +25,33 @@ function getMetricColor(value, type) {
     return 'var(--text-primary)';
 }
 
+// Colorblind-safe palette (IBM Carbon)
+const chartColors = {
+    high: '#d73027',    // Red-orange (not pure red)
+    medium: '#fee090',  // Yellow
+    low: '#4575b4',     // Blue
+    primary: '#1c56ab', // LatentView Blue
+    success: '#10b981',
+    warning: '#f59e0b',
+    danger: '#ef4444'
+};
+
+// Configure Chart.js defaults for consistent tooltips
+if (typeof Chart !== 'undefined') {
+    Chart.defaults.plugins.tooltip = {
+        backgroundColor: '#ffffff',
+        titleColor: '#1e293b',
+        bodyColor: '#334155',
+        borderColor: '#d1dbe8',
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 12,
+        displayColors: true,
+        boxWidth: 12,
+        boxHeight: 12
+    };
+}
+
 let attritionChartInstance = null;
 let accountChartInstance = null;
 
