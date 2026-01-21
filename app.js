@@ -2,6 +2,29 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
+// Utility: Get time ago string
+function getTimeAgo(timestamp) {
+    const now = new Date();
+    const updated = new Date(timestamp);
+    const diffMs = now - updated;
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+    if (diffHours < 1) return 'Updated just now';
+    if (diffHours === 1) return 'Updated 1 hour ago';
+    if (diffHours < 24) return `Updated ${diffHours} hours ago`;
+    return `Updated ${Math.floor(diffHours / 24)} days ago`;
+}
+
+// Utility: Get metric color based on thresholds
+function getMetricColor(value, type) {
+    if (type === 'revenue') {
+        if (value >= 5000000) return 'var(--danger)';      // >$5M = Critical
+        if (value >= 2000000) return 'var(--warning)';     // >$2M = Warning
+        return 'var(--text-primary)';                       // <$2M = Normal
+    }
+    return 'var(--text-primary)';
+}
+
 let attritionChartInstance = null;
 let accountChartInstance = null;
 
@@ -50,10 +73,14 @@ function updateHealthScore(data) {
 function updateRevenueAtRisk(data) {
     const revElem = document.getElementById('revenue-at-risk');
     const mValue = (data.totalRevenueAtRisk / 1000000).toFixed(1);
-    revElem.textContent = `$${mValue}M`;
 
-    // Assuming total rev is roughly 14M based on PRD if not explicit
-    const percentage = ((data.totalRevenueAtRisk / 31403390) * 100).toFixed(0); // placeholder calc
+    // Dynamic color based on threshold
+    const color = getMetricColor(data.totalRevenueAtRisk, 'revenue');
+    revElem.textContent = `$${mValue}M`;
+    revElem.style.color = color;
+
+    // Assuming total rev is roughly 31.4M based on data
+    const percentage = ((data.totalRevenueAtRisk / 31403390) * 100).toFixed(0);
     document.getElementById('revenue-percentage').textContent = `${percentage}% of total revenue at risk`;
 }
 
@@ -74,6 +101,10 @@ function updateAlerts(employees) {
             <div class="alert-content">
                 <div class="alert-title">$${(emp.revenueAtRisk / 1000).toFixed(0)}K at risk: ${emp.name} (${emp.role}) on ${emp.account} at flight risk</div>
                 <div class="alert-meta">Risk Score: ${emp.riskScore} • Signal: ${emp.signals.join(', ')}</div>
+            </div>
+            <div class="alert-actions">
+                <button class="btn-ghost btn-sm" onclick="alert('View details for ${emp.name}')">View</button>
+                <button class="btn-ghost btn-sm" onclick="alert('Assign owner for ${emp.name}')">Assign</button>
             </div>
         `;
         list.appendChild(item);

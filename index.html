@@ -92,7 +92,10 @@
             <div class="dashboard-grid">
                 <!-- Integration Health Score -->
                 <div class="card hero-card summary-card">
-                    <h3 class="card-title">Integration Health</h3>
+                    <div class="card-meta">
+                        <h3 class="card-title" style="margin-bottom: 0;">Integration Health</h3>
+                        <span class="last-updated">Updated 2 hours ago</span>
+                    </div>
                     <div class="health-score-container">
                         <div class="gauge">
                             <div class="gauge-bg"></div>
@@ -101,7 +104,7 @@
                                 <span class="score-value" id="health-score">0</span>
                             </div>
                         </div>
-                        <div class="trend-indicator up">▲ +3 from last week</div>
+                        <div class="trend-indicator trend-up">▲ +3 from last week</div>
                         <div class="sub-metrics" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                             <div style="text-align: center;">
                                 <div style="font-size: 0.75rem; color: var(--text-tertiary);">Talent</div>
@@ -125,7 +128,10 @@
 
                 <!-- Revenue At Risk -->
                 <div class="card hero-card summary-card">
-                    <h3 class="card-title">Revenue At Risk</h3>
+                    <div class="card-meta">
+                        <h3 class="card-title" style="margin-bottom: 0;">Revenue At Risk</h3>
+                        <span class="last-updated">Updated 2 hours ago</span>
+                    </div>
                     <div
                         style="display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1;">
                         <div class="metric-value" id="revenue-at-risk">$0.0M</div>
@@ -138,7 +144,10 @@
 
                 <!-- Critical Alerts -->
                 <div class="card alerts-card">
-                    <h3 class="card-title">Critical Alerts</h3>
+                    <div class="card-meta">
+                        <h3 class="card-title" style="margin-bottom: 0;">Critical Alerts</h3>
+                        <span class="last-updated">Updated just now</span>
+                    </div>
                     <div id="alerts-list">
                         <!-- Alerts populated by JS -->
                         <div class="alert-item">Loading alerts...</div>
@@ -147,7 +156,10 @@
 
                 <!-- Revenue At Risk By Account -->
                 <div class="card chart-card">
-                    <h3 class="card-title">Revenue At Risk By Account</h3>
+                    <div class="card-meta">
+                        <h3 class="card-title" style="margin-bottom: 0;">Revenue At Risk By Account</h3>
+                        <span class="last-updated">Updated 3 hours ago</span>
+                    </div>
                     <div style="position: relative; height: 300px; width: 100%;">
                         <canvas id="accountRiskChart"></canvas>
                     </div>
@@ -155,7 +167,10 @@
 
                 <!-- Attrition Comparison -->
                 <div class="card chart-card">
-                    <h3 class="card-title">Attrition Comparison (YoY)</h3>
+                    <div class="card-meta">
+                        <h3 class="card-title" style="margin-bottom: 0;">Attrition Comparison (YoY)</h3>
+                        <span class="last-updated">Updated 3 hours ago</span>
+                    </div>
                     <div style="position: relative; height: 300px; width: 100%;">
                         <canvas id="attritionChart"></canvas>
                     </div>
