@@ -18,13 +18,14 @@
         <header>
             <div class="logo-container">
                 <img src="assets/images/latentview_logo.png" alt="LatentView" style="height: 40px; border-radius: 4px;">
-                <div style="height: 24px; width: 1px; background: rgba(255,255,255,0.2);"></div>
+                <div style="height: 24px; width: 1px; background: rgba(0,0,0,0.1); margin: 0 0.25rem;"></div>
                 <img src="assets/images/decisionpoint_logo.png" alt="Decision Point"
                     style="height: 32px; border-radius: 4px;">
                 <div style="margin-left: 0.5rem;">
+                    <strong>Integration Pulse</strong>
                     <div class="integration-status"
-                        style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">M&A Analytics
-                        Control Tower</div>
+                        style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0px;">
+                        M&A Analytics Control Tower</div>
                 </div>
             </div>
             <div class="header-actions">
@@ -132,9 +133,8 @@
                 <!-- Revenue At Risk By Account -->
                 <div class="card chart-card">
                     <h3 class="card-title">Revenue At Risk By Account</h3>
-                    <div id="account-chart"
-                        style="flex: 1; display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
-                        <!-- Chart bars populated by JS -->
+                    <div style="position: relative; height: 300px; width: 100%;">
+                        <canvas id="accountRiskChart"></canvas>
                     </div>
                 </div>
 
@@ -145,22 +145,13 @@
                         <canvas id="attritionChart"></canvas>
                     </div>
                 </div>
-
-                <!-- Account Risk Analysis -->
-                <div class="card summary-card" style="grid-column: span 12; display: flex; flex-direction: column;">
-                    <h3 class="card-title">Account Risk View</h3>
-                    <div id="account-chart" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                        <!-- Chart Populated by JS -->
-                        <div style="color: var(--text-tertiary); font-style: italic;">Loading risk view...</div>
-                    </div>
-                </div>
             </div>
         </main>
 
         <div class="chat-trigger" id="chat-trigger" onclick="toggleChat()">💬</div>
 
         <!-- Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
         <script src="data.js"></script>
         <script src="app.js"></script>

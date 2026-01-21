@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
+let attritionChartInstance = null;
+let accountChartInstance = null;
+
 async function loadData() {
     try {
         if (typeof RAW_DATA === 'undefined') {
@@ -16,15 +19,13 @@ async function loadData() {
         updateHealthScore(health);
         updateRevenueAtRisk(health);
         updateAlerts(talent.employees);
-        updateRevenueAtRisk(health);
-        updateAlerts(talent.employees);
-        updateAccountChart(accountsData.accounts); // Restored
+
+        renderAccountChart(accountsData.accounts);
         renderAttritionChart(RAW_DATA.attritionTrend);
-        // renderRiskTable(accountsData.accounts); // Removed per user request
 
     } catch (error) {
         console.error('Error loading data:', error);
-        document.getElementById('alerts-list').innerHTML = '<div class="alert-item warning">Failed to load live data.</div>';
+        document.getElementById('alerts-list').innerHTML = `<div class="alert-item warning">Failed to load live data: ${error.message}</div>`;
     }
 }
 
@@ -93,10 +94,14 @@ function updateAlerts(employees) {
 function renderAttritionChart(trends) {
     const ctx = document.getElementById('attritionChart').getContext('2d');
 
+    if (attritionChartInstance) {
+        attritionChartInstance.destroy();
+    }
+
     // Labels for April to March fiscal year
     const labels = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
 
-    new Chart(ctx, {
+    attritionChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -165,6 +170,67 @@ function updateAccountChart(accounts) {
     // Deprecated in favor of Full Table
 } 
 */
+
+function renderAccountChart(accounts) {
+    const ctx = document.getElementById('accountRiskChart').getContext('2d');
+
+    if (accountChartInstance) {
+        accountChartInstance.destroy();
+    }
+
+    // Sort by Risk and take Top 5
+    const topAccounts = [...accounts]
+        .sort((a, b) => b.revenueAtRisk - a.revenueAtRisk)
+        .slice(0, 5);
+
+    const labels = topAccounts.map(a => a.name);
+    const data = topAccounts.map(a => a.revenueAtRisk);
+
+    accountChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Revenue at Risk',
+                data: data,
+                backgroundColor: '#0f172a', // LatentView Navy
+                borderRadius: 4,
+                barPercentage: 0.6
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bars
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return '$' + (context.raw / 1000).toFixed(0) + 'k At Risk';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { color: '#f1f5f9' },
+                    ticks: {
+                        font: { size: 10 },
+                        callback: function (value) {
+                            return '$' + (value / 1000) + 'k';
+                        }
+                    }
+                },
+                y: {
+                    grid: { display: false },
+                    ticks: { font: { weight: '600' } }
+                }
+            }
+        }
+    });
+}
 
 function animateValue(obj, start, end, duration) {
     let startTimestamp = null;
