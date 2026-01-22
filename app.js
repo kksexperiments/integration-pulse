@@ -2,6 +2,84 @@ document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
+// Manual Refresh Function
+async function manualRefresh() {
+    const btn = document.getElementById('refresh-btn');
+    if (!btn) return;
+
+    // Disable button and show loading state
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.style.cursor = 'not-allowed';
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+        </svg>
+        Refreshing...
+    `;
+
+    // Add spin animation if not already present
+    if (!document.getElementById('spin-animation')) {
+        const style = document.createElement('style');
+        style.id = 'spin-animation';
+        style.textContent = '@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }';
+        document.head.appendChild(style);
+    }
+
+    try {
+        // Clear cache and reload data
+        if (typeof dataFetcher !== 'undefined') {
+            dataFetcher.clearCache();
+            console.log('[REFRESH] Cache cleared, fetching fresh data...');
+        }
+
+        await loadData();
+
+        // Show success feedback
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Refreshed!
+        `;
+        btn.style.background = 'var(--status-success)';
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.style.background = 'var(--lv-primary)';
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            btn.disabled = false;
+        }, 2000);
+
+    } catch (error) {
+        console.error('[REFRESH] Failed:', error);
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            Failed
+        `;
+        btn.style.background = 'var(--status-danger)';
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.style.background = 'var(--lv-primary)';
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            btn.disabled = false;
+        }, 2000);
+    }
+}
+
+
 // Utility: Get time ago string
 function getTimeAgo(timestamp) {
     const now = new Date();
@@ -57,27 +135,104 @@ let accountChartInstance = null;
 
 async function loadData() {
     try {
-        if (typeof RAW_DATA === 'undefined') {
-            console.error('RAW_DATA not found. Ensure data.js is loaded.');
-            return;
+        // Show loading state
+        document.getElementById('health-score').textContent = '...';
+        document.getElementById('revenue-at-risk').textContent = 'Loading...';
+        document.getElementById('alerts-list').innerHTML = '<div class="alert-item">Loading data from Google Sheets...</div>';
+
+        // Try to fetch live data from Google Sheets
+        let liveData;
+        let usingLiveData = false;
+
+        if (typeof dataFetcher !== 'undefined') {
+            try {
+                console.log('[INTEGRATION] Fetching live data from Google Sheets...');
+                liveData = await dataFetcher.fetchAll();
+                usingLiveData = true;
+                console.log('[INTEGRATION] ✅ Live data loaded successfully');
+            } catch (apiError) {
+                console.warn('[INTEGRATION] ⚠️ Failed to fetch live data, falling back to mock data:', apiError);
+            }
         }
 
-        const health = RAW_DATA.health;
-        const accountsData = { accounts: RAW_DATA.accounts };
-        const talent = { employees: RAW_DATA.talent };
+        // Fallback to mock data if live data unavailable
+        if (!usingLiveData) {
+            if (typeof RAW_DATA === 'undefined') {
+                throw new Error('No data source available (neither live nor mock)');
+            }
+            console.log('[INTEGRATION] Using mock data from data.js');
+        }
 
+        // Transform live data to match existing structure
+        let health, accountsData, talent;
+
+        if (usingLiveData) {
+            // Map live data from Google Sheets to expected format
+            const metrics = liveData.metrics;
+
+            // Calculate sub-scores from metrics (now from api_aggregator formulas)
+            const talentScore = metrics.get('talent_score') || 72;
+            const cultureScore = metrics.get('culture_score') || 68;
+            const operationsScore = metrics.get('operations_score') || 81;
+            const costScore = metrics.get('cost_score') || 74;
+
+            health = {
+                overallScore: Math.round(metrics.get('overall_health_score') || 0),
+                totalRevenueAtRisk: metrics.get('total_revenue_at_risk') || 0,
+                talent: talentScore,
+                culture: cultureScore,
+                operations: operationsScore,
+                cost: costScore
+            };
+
+            accountsData = { accounts: liveData.accounts };
+            talent = { employees: liveData.employees };
+
+            // Add success indicator
+            const statusIndicator = document.querySelector('.last-updated');
+            if (statusIndicator) {
+                statusIndicator.textContent = '🟢 Live data from Google Sheets';
+                statusIndicator.style.color = 'var(--status-success)';
+            }
+        } else {
+            // Use mock data
+            health = RAW_DATA.health;
+            accountsData = { accounts: RAW_DATA.accounts };
+            talent = { employees: RAW_DATA.talent };
+        }
+
+        // Update UI with data (same for both live and mock)
         updateHealthScore(health);
         updateRevenueAtRisk(health);
         updateAlerts(talent.employees);
 
         renderAccountChart(accountsData.accounts);
-        renderAttritionChart(RAW_DATA.attritionTrend);
+
+        // Use live attrition trends if available
+        if (usingLiveData && liveData.attritionTrends && liveData.attritionTrends.length > 0) {
+            renderAttritionChart(transformAttritionTrends(liveData.attritionTrends));
+        } else {
+            renderAttritionChart(RAW_DATA.attritionTrend);
+        }
 
     } catch (error) {
-        console.error('Error loading data:', error);
-        document.getElementById('alerts-list').innerHTML = `<div class="alert-item warning">Failed to load live data: ${error.message}</div>`;
+        console.error('[INTEGRATION] ❌ Error loading data:', error);
+        document.getElementById('alerts-list').innerHTML = `<div class="alert-item warning">Failed to load data: ${error.message}</div>`;
     }
 }
+
+// Transform attrition trends from Google Sheets format to chart format
+function transformAttritionTrends(trends) {
+    // Separate by fiscal year
+    const previous = trends.filter(t => t.fiscal_year === '2024-2025').map(t => t.attrition_count);
+    const current = trends.filter(t => t.fiscal_year === '2025-2026').map(t => t.attrition_count);
+
+    return {
+        previous: previous,
+        current: current
+    };
+}
+
 
 function updateHealthScore(data) {
     const scoreElem = document.getElementById('health-score');

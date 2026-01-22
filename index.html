@@ -68,9 +68,21 @@
 
         <main>
             <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: baseline;">
-                <h1>Command Center</h1>
-                <span style="color: var(--text-secondary); font-size: 0.875rem;">Executive overview of integration
-                    health and key risks</span>
+                <div>
+                    <h1>Command Center</h1>
+                    <span style="color: var(--text-secondary); font-size: 0.875rem;">Executive overview of integration
+                        health and key risks</span>
+                </div>
+                <button id="refresh-btn" onclick="manualRefresh()"
+                    style="padding: 0.5rem 1rem; background: var(--lv-primary); color: white; border: none; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                    Refresh Data
+                </button>
             </div>
 
             <div class="dashboard-grid">
@@ -172,6 +184,8 @@
         <!-- Chart.js -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
+        <!-- Google Sheets API Integration -->
+        <script src="sheets-api.js"></script>
         <script src="data.js"></script>
         <script src="app.js"></script>
         <script src="chatbot.js"></script>

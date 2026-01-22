@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Data Export | Integration Pulse</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            background: var(--bg-primary);
+            font-family: var(--font-primary);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: var(--lv-navy-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: var(--surface-white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .section h2 {
+            margin-top: 0;
+            color: var(--lv-primary);
+            font-size: 1.25rem;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .export-btn {
+            background: var(--lv-primary);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .export-btn:hover {
+            background: var(--lv-blue-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .export-btn.primary {
+            background: var(--status-success);
+        }
+
+        .export-btn.primary:hover {
+            background: #059669;
+        }
+
+        .icon {
+            font-size: 1.25rem;
+        }
+
+        .output {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .output.visible {
+            display: block;
+        }
+
+        .copy-btn {
+            background: var(--status-success);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+        }
+
+        .status {
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .status.success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #10B981;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📊 Enhanced Data Export Helper</h1>
+        <p class="subtitle">Export data for Google Sheets integration with new columns for sub-score calculations</p>
+
+        <div class="section">
+            <h2>✨ Enhanced Employee Data (Recommended)</h2>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">
+                Includes 4 new columns: performance_rating, engagement_score, tenure_bucket, cost_efficiency
+            </p>
+            <div class="button-group">
+                <button class="export-btn primary" onclick="exportEnhancedEmployees()">
+                    <span class="icon">⭐</span>
+                    Export Enhanced Employees
+                </button>
+            </div>
+            <div id="enhanced-status" class="status"></div>
+            <div id="enhanced-output" class="output"></div>
+        </div>
+
+        <div class="section">
+            <h2>📈 Attrition Trends Data (New)</h2>
+            <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">
+                2 fiscal years of attrition data for the attrition_trends sheet
+            </p>
+            <div class="button-group">
+                <button class="export-btn primary" onclick="exportAttritionTrends()">
+                    <span class="icon">📈</span>
+                    Export Attrition Trends
+                </button>
+            </div>
+            <div id="attrition-status" class="status"></div>
+            <div id="attrition-output" class="output"></div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Original Data (For Reference)</h2>
+            <div class="button-group">
+                <button class="export-btn" onclick="exportAccounts()">
+                    <span class="icon">🏢</span>
+                    Export Accounts
+                </button>
+            </div>
+            <div id="account-status" class="status"></div>
+            <div id="account-output" class="output"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="helpers/add-new-columns.js"></script>
+    <script src="helpers/create-attrition-trends.js"></script>
+    <script>
+        function exportEnhancedEmployees() {
+            try {
+                // Generate enhanced data
+                const employees = RAW_DATA.talent;
+                const enhancedEmployees = employees.map(emp => {
+                    const performanceRating = emp.riskScore > 80 ? Math.floor(Math.random() * 2) + 1 :
+                        emp.riskScore > 50 ? Math.floor(Math.random() * 2) + 3 :
+                            Math.floor(Math.random() * 2) + 4;
+                    const engagementScore = Math.max(0, Math.min(100, 100 - emp.riskScore + (Math.random() * 20 - 10)));
+                    const tenureBucket = emp.tenure < 1 ? '0-1yr' : emp.tenure < 3 ? '1-3yr' : emp.tenure < 5 ? '3-5yr' : '5+yr';
+                    const costEfficiencyRand = Math.random();
+                    const costEfficiency = costEfficiencyRand < 0.4 ? 'Below' : costEfficiencyRand < 0.8 ? 'At' : 'Above';
+
+                    return {
+                        employee_id: emp.id,
+                        employee_name: emp.name,
+                        role: emp.role,
+                        origin: emp.origin,
+                        function: emp.function,
+                        geography: emp.geography,
+                        tenure_years: emp.tenure,
+                        manager_id: emp.managerId || '',
+                        account_name: emp.account,
+                        grade_legacy: emp.gradeLegacy || '',
+                        grade_unified: emp.gradeUnified || '',
+                        grade_mapping_status: emp.gradeMappingStatus || 'Pending',
+                        base_salary: emp.baseSalary || '',
+                        risk_score: emp.riskScore,
+                        business_impact: emp.businessImpact,
+                        signal_manager_flag: emp.signals?.includes('manager_flag') ? 'TRUE' : 'FALSE',
+                        signal_comp_gap: emp.signals?.includes('comp_gap') ? 'TRUE' : 'FALSE',
+                        signal_peer_departed: emp.signals?.includes('peer_departed') ? 'TRUE' : 'FALSE',
+                        revenue_at_risk: emp.revenueAtRisk,
+                        hire_date: emp.hireDate ? emp.hireDate.toISOString().split('T')[0] : '',
+                        status: emp.status || 'Active',
+                        performance_rating: performanceRating,
+                        engagement_score: Math.round(engagementScore),
+                        tenure_bucket: tenureBucket,
+                        cost_efficiency: costEfficiency
+                    };
+                });
+
+                const csv = arrayToCSV(enhancedEmployees);
+                displayOutput('enhanced-output', csv);
+                showStatus('enhanced-status', `✅ Generated ${enhancedEmployees.length} enhanced employee records with 4 new columns`);
+            } catch (error) {
+                showStatus('enhanced-status', '❌ Error: ' + error.message);
+            }
+        }
+
+        function exportAttritionTrends() {
+            try {
+                const trends = [];
+                const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+                const previousYearData = [2, 3, 2, 4, 3, 5, 4, 6, 5, 7, 6, 8];
+                const currentYearData = [3, 4, 3, 5, 4, 6, 5, 7, 6, 8, 7];
+
+                let headcount = 320;
+                previousYearData.forEach((count, index) => {
+                    const month = months[index];
+                    const monthDate = index < 9 ? `2024-${String(index + 4).padStart(2, '0')}` : `2025-${String(index - 8).padStart(2, '0')}`;
+                    trends.push({
+                        fiscal_year: '2024-2025',
+                        month: month,
+                        month_date: `${monthDate}-01`,
+                        attrition_count: count,
+                        headcount: headcount,
+                        attrition_rate: ((count / headcount) * 100).toFixed(2)
+                    });
+                    headcount += Math.floor(Math.random() * 3) - 1;
+                });
+
+                headcount = 340;
+                currentYearData.forEach((count, index) => {
+                    const month = months[index];
+                    const monthDate = index < 9 ? `2025-${String(index + 4).padStart(2, '0')}` : `2026-${String(index - 8).padStart(2, '0')}`;
+                    trends.push({
+                        fiscal_year: '2025-2026',
+                        month: month,
+                        month_date: `${monthDate}-01`,
+                        attrition_count: count,
+                        headcount: headcount,
+                        attrition_rate: ((count / headcount) * 100).toFixed(2)
+                    });
+                    headcount += Math.floor(Math.random() * 4);
+                });
+
+                const csv = arrayToCSV(trends);
+                displayOutput('attrition-output', csv);
+                showStatus('attrition-status', `✅ Generated ${trends.length} months of attrition data`);
+            } catch (error) {
+                showStatus('attrition-status', '❌ Error: ' + error.message);
+            }
+        }
+
+        function exportAccounts() {
+            try {
+                const accounts = RAW_DATA.accounts.map(a => ({
+                    account_name: a.name,
+                    total_revenue: a.totalRevenue,
+                    renewal_date: a.renewalDate || '',
+                    team_size: a.teamSize,
+                    people_risk_score: a.peopleRiskScore,
+                    revenue_at_risk: a.revenueAtRisk,
+                    margin_percent: a.marginPercent || 15,
+                    primary_contact_id: '',
+                    sow_1_name: a.sows?.[0]?.name || '',
+                    sow_1_value: a.sows?.[0]?.value || '',
+                    sow_1_headcount: a.sows?.[0]?.headcount || '',
+                    sow_1_at_risk: a.sows?.[0]?.atRisk ? 'TRUE' : 'FALSE',
+                    sow_2_name: a.sows?.[1]?.name || '',
+                    sow_2_value: a.sows?.[1]?.value || '',
+                    sow_2_headcount: a.sows?.[1]?.headcount || '',
+                    sow_2_at_risk: a.sows?.[1]?.atRisk ? 'TRUE' : 'FALSE'
+                }));
+
+                const csv = arrayToCSV(accounts);
+                displayOutput('account-output', csv);
+                showStatus('account-status', `✅ Exported ${accounts.length} accounts`);
+            } catch (error) {
+                showStatus('account-status', '❌ Error: ' + error.message);
+            }
+        }
+
+        function arrayToCSV(data) {
+            if (!data || data.length === 0) return '';
+            const headers = Object.keys(data[0]);
+            const rows = data.map(item =>
+                headers.map(header => {
+                    let value = item[header];
+                    if (value === null || value === undefined) return '';
+                    return value;
+                }).join('\t')
+            );
+            return rows.join('\n');
+        }
+
+        function displayOutput(elementId, csv) {
+            const output = document.getElementById(elementId);
+            output.textContent = csv;
+            output.classList.add('visible');
+
+            if (!output.nextElementSibling || !output.nextElementSibling.classList.contains('copy-btn')) {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = '📋 Copy to Clipboard';
+                copyBtn.onclick = () => copyToClipboard(csv, copyBtn);
+                output.parentNode.insertBefore(copyBtn, output.nextSibling);
+            }
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+
+        function showStatus(elementId, message) {
+            const status = document.getElementById(elementId);
+            status.className = 'status success';
+            status.textContent = message;
+        }
+    </script>
+</body>
+
+</html>

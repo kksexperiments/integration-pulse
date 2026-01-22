@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Export Helper | Integration Pulse</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .export-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .export-card {
+            background: var(--surface-white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .export-card h2 {
+            margin-top: 0;
+            color: var(--lv-primary);
+        }
+
+        .export-button {
+            background: var(--lv-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: all 0.2s;
+        }
+
+        .export-button:hover {
+            background: var(--lv-blue-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .export-output {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre;
+            display: none;
+        }
+
+        .export-output.visible {
+            display: block;
+        }
+
+        .copy-button {
+            background: var(--status-success);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .copy-button:hover {
+            background: #059669;
+        }
+
+        .instructions {
+            background: #EFF6FF;
+            border-left: 4px solid var(--lv-primary);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: var(--radius-md);
+        }
+
+        .instructions ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .status-message {
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #D1FAE5;
+            color: #065F46;
+            border: 1px solid #10B981;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border: 1px solid #EF4444;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="export-container">
+        <h1>📊 Data Export Helper</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+            Export your dashboard data to CSV format for Google Sheets integration.
+        </p>
+
+        <!-- Employee Data Export -->
+        <div class="export-card">
+            <h2>1. Export Employee Data</h2>
+            <p>Export all employee data from the master roster.</p>
+
+            <button class="export-button" onclick="exportEmployees()">
+                📥 Export Employees
+            </button>
+
+            <div id="employee-status" class="status-message"></div>
+            <div id="employee-output" class="export-output"></div>
+
+            <div class="instructions">
+                <strong>📋 Next Steps:</strong>
+                <ol>
+                    <li>Click "Export Employees" button above</li>
+                    <li>Click "Copy to Clipboard" when data appears</li>
+                    <li>Go to Google Sheets → <code>master_roster</code> tab</li>
+                    <li>Click cell A2 (first cell below headers)</li>
+                    <li>Paste (Cmd+V or Ctrl+V)</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Account Data Export -->
+        <div class="export-card">
+            <h2>2. Export Account Data</h2>
+            <p>Export all client account data.</p>
+
+            <button class="export-button" onclick="exportAccounts()">
+                📥 Export Accounts
+            </button>
+
+            <div id="account-status" class="status-message"></div>
+            <div id="account-output" class="export-output"></div>
+
+            <div class="instructions">
+                <strong>📋 Next Steps:</strong>
+                <ol>
+                    <li>Click "Export Accounts" button above</li>
+                    <li>Click "Copy to Clipboard" when data appears</li>
+                    <li>Go to Google Sheets → <code>account_projects</code> tab</li>
+                    <li>Click cell A2 (first cell below headers)</li>
+                    <li>Paste (Cmd+V or Ctrl+V)</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Sample Data for Other Tabs -->
+        <div class="export-card">
+            <h2>3. Sample Data for Other Tabs</h2>
+            <p>Copy these sample datasets for the remaining tabs.</p>
+
+            <h3 style="margin-top: 1.5rem;">Attrition Logs</h3>
+            <button class="export-button" onclick="exportAttrition()">
+                📥 Export Attrition Data
+            </button>
+            <div id="attrition-output" class="export-output"></div>
+
+            <h3 style="margin-top: 1.5rem;">Grade Mapping</h3>
+            <button class="export-button" onclick="exportGradeMapping()">
+                📥 Export Grade Mapping
+            </button>
+            <div id="grade-output" class="export-output"></div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+        function exportEmployees() {
+            try {
+                const employees = RAW_DATA.talent.map(e => ({
+                    employee_id: e.id,
+                    employee_name: e.name,
+                    role: e.role,
+                    origin: e.origin,
+                    function: e.function,
+                    geography: e.geography,
+                    tenure_years: e.tenure,
+                    manager_id: '',
+                    account_name: e.account,
+                    grade_legacy: '',
+                    grade_unified: '',
+                    grade_mapping_status: e.gradeMappingStatus || 'Pending',
+                    base_salary: '',
+                    risk_score: e.riskScore,
+                    business_impact: e.businessImpact,
+                    signal_manager_flag: e.signals?.includes('manager_flag') ? 'TRUE' : 'FALSE',
+                    signal_comp_gap: e.signals?.includes('comp_gap') ? 'TRUE' : 'FALSE',
+                    signal_peer_departed: e.signals?.includes('peer_departed') ? 'TRUE' : 'FALSE',
+                    revenue_at_risk: e.revenueAtRisk,
+                    hire_date: '',
+                    status: 'Active'
+                }));
+
+                const csv = convertToCSV(employees);
+                displayOutput('employee-output', csv, 'employee-status');
+                showStatus('employee-status', 'success', `✅ Exported ${employees.length} employees`);
+            } catch (error) {
+                showStatus('employee-status', 'error', '❌ Error: ' + error.message);
+            }
+        }
+
+        function exportAccounts() {
+            try {
+                const accounts = RAW_DATA.accounts.map(a => ({
+                    account_name: a.name,
+                    total_revenue: a.totalRevenue,
+                    renewal_date: a.renewalDate || '',
+                    team_size: a.teamSize,
+                    people_risk_score: a.peopleRiskScore,
+                    revenue_at_risk: a.revenueAtRisk,
+                    margin_percent: a.marginPercent || 15,
+                    primary_contact_id: '',
+                    sow_1_name: a.sows?.[0]?.name || '',
+                    sow_1_value: a.sows?.[0]?.value || '',
+                    sow_1_headcount: a.sows?.[0]?.headcount || '',
+                    sow_1_at_risk: a.sows?.[0]?.atRisk ? 'TRUE' : 'FALSE',
+                    sow_2_name: a.sows?.[1]?.name || '',
+                    sow_2_value: a.sows?.[1]?.value || '',
+                    sow_2_headcount: a.sows?.[1]?.headcount || '',
+                    sow_2_at_risk: a.sows?.[1]?.atRisk ? 'TRUE' : 'FALSE'
+                }));
+
+                const csv = convertToCSV(accounts);
+                displayOutput('account-output', csv, 'account-status');
+                showStatus('account-status', 'success', `✅ Exported ${accounts.length} accounts`);
+            } catch (error) {
+                showStatus('account-status', 'error', '❌ Error: ' + error.message);
+            }
+        }
+
+        function exportAttrition() {
+            const data = [
+                { month: '2024-01', origin: 'DP', function: 'Delivery', geography: 'India', headcount_start: 120, voluntary_exits: 3, involuntary_exits: 1, headcount_end: 116, attrition_rate: 3.33 },
+                { month: '2024-02', origin: 'DP', function: 'Delivery', geography: 'India', headcount_start: 116, voluntary_exits: 2, involuntary_exits: 0, headcount_end: 114, attrition_rate: 1.72 },
+                { month: '2024-03', origin: 'LV', function: 'Technology', geography: 'US', headcount_start: 85, voluntary_exits: 1, involuntary_exits: 1, headcount_end: 83, attrition_rate: 2.35 },
+                { month: '2024-04', origin: 'DP', function: 'RGM', geography: 'India', headcount_start: 95, voluntary_exits: 2, involuntary_exits: 0, headcount_end: 93, attrition_rate: 2.11 },
+                { month: '2024-05', origin: 'LV', function: 'Product', geography: 'US', headcount_start: 62, voluntary_exits: 1, involuntary_exits: 0, headcount_end: 61, attrition_rate: 1.61 }
+            ];
+
+            const csv = convertToCSV(data);
+            displayOutput('attrition-output', csv);
+        }
+
+        function exportGradeMapping() {
+            const data = [
+                { legacy_grade: 'G1', unified_grade: 'L1', salary_min: 45000, salary_max: 65000, level_description: 'Associate' },
+                { legacy_grade: 'G2', unified_grade: 'L2', salary_min: 65000, salary_max: 85000, level_description: 'Senior Associate' },
+                { legacy_grade: 'G3', unified_grade: 'L3', salary_min: 85000, salary_max: 110000, level_description: 'Manager' },
+                { legacy_grade: 'G4', unified_grade: 'L4', salary_min: 110000, salary_max: 140000, level_description: 'Senior Manager' },
+                { legacy_grade: 'G5', unified_grade: 'L5', salary_min: 140000, salary_max: 180000, level_description: 'Director' }
+            ];
+
+            const csv = convertToCSV(data);
+            displayOutput('grade-output', csv);
+        }
+
+        function convertToCSV(data) {
+            if (!data || data.length === 0) return '';
+
+            const headers = Object.keys(data[0]);
+            const rows = data.map(item =>
+                headers.map(header => {
+                    let value = item[header];
+                    if (value === null || value === undefined) return '';
+                    return value;
+                }).join('\t')
+            );
+
+            return rows.join('\n');
+        }
+
+        function displayOutput(elementId, csv, statusId) {
+            const output = document.getElementById(elementId);
+            output.textContent = csv;
+            output.classList.add('visible');
+
+            // Add copy button if not exists
+            if (!output.nextElementSibling || !output.nextElementSibling.classList.contains('copy-button')) {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-button';
+                copyBtn.textContent = '📋 Copy to Clipboard';
+                copyBtn.onclick = () => copyToClipboard(csv, copyBtn);
+                output.parentNode.insertBefore(copyBtn, output.nextSibling);
+            }
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy. Please select and copy manually.');
+            });
+        }
+
+        function showStatus(elementId, type, message) {
+            const status = document.getElementById(elementId);
+            status.className = `status-message ${type}`;
+            status.textContent = message;
+        }
+    </script>
+</body>
+
+</html>
